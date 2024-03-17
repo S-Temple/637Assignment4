@@ -82,7 +82,7 @@ In this phase, we want to increase the mutation score. For each of the classes u
  
  **Relavent code** 
  ```
- double result = **value**;  // value is incremented AFTER being assigned to result (value++)  
+ double result = value;  // value is incremented AFTER being assigned to result (value++)  
     if (!contains(value)) {    // if value was increased from within range to out of range, these conditional statements would behave differently and the mutant would be klilled.    
 		if (value > this.upper)     
 ```   
@@ -95,7 +95,7 @@ A similar mutant existst for the post decrement (a--) behaviours near the lower 
  
 **Relavent code**    
 ```
-if (**!contains(value)**) {  //this is the if statement being replaced with TRUE --- if (TRUE)    
+if (!contains(value)) {  //this is the if statement being replaced with TRUE --- if (TRUE)    
             if (value > this.upper) {  //only runs if the above conditional is true    
                 result = this.upper;    
             }    
@@ -115,7 +115,7 @@ The opposite mutant (replacing conditional with FALSE) is correctly killed as it
     
 **Relavent code**   
 ```
-            if (value > **this.upper**) {  //Negated value here --- if (value > -1*this.upper)    
+            if (value > this.upper) {  //Negated value here --- if (value > -1*this.upper)    
                 result = this.upper;    
             }    
 ```   
