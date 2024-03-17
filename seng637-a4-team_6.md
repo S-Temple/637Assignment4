@@ -75,6 +75,7 @@ In this phase, we want to increase the mutation score. For each of the classes u
 # Analysis of 10 Mutants of the Range class 
 
 # Report all the statistics and the mutation score for each test class
+NOTE: These values include the methods that are not covered by any test cases
 Range:
 ![image](https://github.com/S-Temple/637Assignment4/assets/15621805/3534f773-40f5-4301-825b-ff067c5197e2)
 
