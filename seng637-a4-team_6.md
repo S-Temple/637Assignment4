@@ -78,11 +78,11 @@ In this phase, we want to increase the mutation score. For each of the classes u
 NOTE: These values include the methods that are not covered by any test cases
 
 Range:
-![image](https://github.com/S-Temple/637Assignment4/assets/15621805/3534f773-40f5-4301-825b-ff067c5197e2)
+![](./media/10-RangeMutations.png)
 
 
 DataUtilities:
-![image](https://github.com/S-Temple/637Assignment4/assets/15621805/e2042ca9-2a9e-4c58-a01f-b053860c1d69)
+![](./media/11-DataUtilitiesMutations.png)
 
 
 # Analysis drawn on the effectiveness of each of the test classes
