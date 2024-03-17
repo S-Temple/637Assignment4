@@ -91,7 +91,7 @@ This is a good example for the importance of testing values very near to the bou
 
 A similar mutant existst for the post decrement (a--) behaviours near the lower bound  
 
-*2. constrain : removed conditional - replaced equality check with true -> SURVIVED *  
+*2. constrain : removed conditional - replaced equality check with true -> SURVIVED*  
  
 **Relavent code**    
 ```
