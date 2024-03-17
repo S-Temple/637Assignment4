@@ -12,7 +12,7 @@ public class RangeTest {
     public void setUp() throws Exception { constrainRange = new Range(-10, 20);
     }
 
-    /*
+    /*JFreeChart_Lab4
      * testing constructor
      */
     @Test

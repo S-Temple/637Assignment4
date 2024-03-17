@@ -127,7 +127,31 @@ Since the input value is still lower than the negated upper value (-20), the tes
     
 Adding tests with similar equivalence classes but differeing values would kill more mutants like this. Increasing the diversity of the tests at the cost taking more time to implement and run them    
     
-# Report all the statistics and the mutation score for each test class  
+**getCentralValue mutants:**
+
+![](media/RangegetCentralValue.png)
+> getCentralValue() is a single statment method.
+![](media/RangegetCentralValueMutants.png)
+> 47 different mutations applied to this single line.
+> - Mutation type 1 substituted the values 2.0 with 1.0 (Mutation 1, 2, 28, 29, 38, 39): Replaces the constant 2.0 with 1.0 in the expression this.lower / 2.0 + this.upper / 2.0. This type of mutation was always detected by the test suite meanign it triggered a test failure and was "KILLED". It makes sense that it would be detected as it changes the expression in a way that cause a incorrect value to be returned.
+> - Mutation type 2 replaced math operators with different operations. (Mutations 3, 4, 5, 16, 17, 18): For the same reasons as the first type the return value will be incorrect and the test will fail. 
+> - Mutation type 3 replaces the math expression with 0.0d (Mutation 6): Any test expecting a value of 0.0 may pass but the rest fail causing the Mutation to be killed.
+> - Mutation type 4 replaces the math expression x with -(x-1). (Mutation 7): 
+> 
+> return this.lower / 2.0 + this.upper / 2.0;
+> 
+> becomes:
+> 
+> return -(this.lower / 2.0 + this.upper / 2.0 + 1);
+> 
+> The wrong value will be returned and caught by the Junit test killing the Mutation.
+> - Most of the rest of the tests follow a simlar pattern causeing return value to be incorrect; except for the postix operation mutations(Mutations 40, 41, 42, 43):
+> This is because the postfix operator doesn't change the upper and lower values until after the upper and lower values are used in the math expression. The return value is unaffected so all tests pass. The value of lower and upper are incremented in the function when they shouldn't be. In C++ the method could be made const preventing writing to member variables, not sure solution here? just create a test that upper and lower member variables are unchanged from start of method?
+
+
+
+
+# Report all the statistics and the mutation score for each test class
 NOTE: These values include the methods that are not covered by any test cases
 
 Range:
@@ -170,7 +194,7 @@ Students will be required to submit a report on their work in the lab as a group
 A portion of the grade for the lab report will be allocated to organization and clarity. The report marking scheme is as follows:
 
 | **Mutation Testing (50)**                                                                                                                                         |     |
-| ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | --- |
+| --------------->>>>>>> Stashed changes-------------------------------------------------------------------------------------------------------------------------------------------------- | --- |
 | Analysis of at least 10 mutants produced by Pitest for the `Range` class, and how they are killed or not by your original test suite                              | 10  |
 | All the statistics and the mutation score for each of the mutated classes (`Range` and `DataUtilities`) with each test suite class (original and the updated one) | 20  |
 | A discussion on the effect of equivalent mutants on mutation score accuracy including a discussion on how equivalent mutants could be detected                    | 10  |
