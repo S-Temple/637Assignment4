@@ -80,8 +80,8 @@ Constrain mutants:
  
  This mutant survives, primarily because there are no tests for constrain where value is very close to the edge of the range
  
- #Relavent code#
- double result = value;  // value is incremented AFTER being assigned to result
+ **Relavent code**
+ double result = **value**;  // value is incremented AFTER being assigned to result (value++)
     if (!contains(value)) {    // if value was increased from within range to out of range, these conditional statements would behave differently and the mutant would be klilled.
 		if (value > this.upper)  
 
@@ -95,8 +95,8 @@ A similar mutant existst for the post decrement (a--) behaviours near the lower 
 
 2. constrain : removed conditional - replaced equality check with true -> SURVIVED
 
-#Relavent code#
-if (!contains(value)) {  //this is the if statement being replaced with TRUE --- if (TRUE)
+**Relavent code**
+if (**!contains(value)**) {  //this is the if statement being replaced with TRUE --- if (TRUE)
             if (value > this.upper) {  //only runs if the above conditional is true
                 result = this.upper;
             }
@@ -114,8 +114,8 @@ The opposite mutant (replacing conditional with FALSE) is correctly killed as it
 
 3. constrain : Negated double field upper -> SURVIVED
 
-#Relavent code#
-            if (value > this.upper) {  //Negated value here --- if (value > -1*this.upper)
+**Relavent code**
+            if (value > **this.upper**) {  //Negated value here --- if (value > -1*this.upper)
                 result = this.upper;
             }
 
