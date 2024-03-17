@@ -159,6 +159,7 @@ public class RangeTest {
     	assertEquals("The central value of 5 and 5 should be 5",
     	5.0, range.getCentralValue(), .000000001d);		    
     }
+    // added assignment 4
     @Test
     public void testGetCentralValue_CheckIfMemberVarsChange() {
     	Range range = new Range(5.0,5.0);
@@ -168,7 +169,7 @@ public class RangeTest {
     	    	5.0, range.getCentralValue(), .000000001d);	
     	assertEquals("The lower member variable was altered",
     			l, range.getLowerBound(), .000000001d);		
-    	assertEquals("The lower member variable was altered",
+    	assertEquals("The upper member variable was altered",
     	    	u, range.getUpperBound(), .000000001d);	
     }
 
@@ -203,6 +204,18 @@ public class RangeTest {
     public void testContainsBeyondUpper() {
         Range range = new Range(0.0, 10.0);
         assertTrue("Unexpected behaviour in contains method",!range.contains(11.0));
+    }
+    // added assignment 4
+    @Test
+    public void testContains_CheckIfMemberVarsChange() {
+    	Range range = new Range(0.0,5.0);
+    	double l = range.getLowerBound();
+    	double u = range.getUpperBound();
+    	assertTrue("Unexpected behaviour in contains method",range.contains(2.5));
+    	assertEquals("The lower member variable was altered",
+    			l, range.getLowerBound(), .000000001d);		
+    	assertEquals("The upper member variable was altered",
+    	    	u, range.getUpperBound(), .000000001d);	
     }
     
     /* getLength method tests
@@ -243,6 +256,19 @@ public class RangeTest {
         Range range = new Range(Double.MIN_VALUE, Double.MAX_VALUE);
         assertEquals("get length fails on overflow",Double.MAX_VALUE - Double.MIN_VALUE, range.getLength(), 0.001);
     }
+    // added assignment 4
+    @Test
+    public void testGetLength_CheckIfMemberVarsChange() {
+    	Range range = new Range(0.0,5.0);
+    	double l = range.getLowerBound();
+    	double u = range.getUpperBound();
+    	assertEquals("get length fails with length = 0",5.0, range.getLength(), 0.001);
+    	assertEquals("The lower member variable was altered",
+    			l, range.getLowerBound(), .000000001d);		
+    	assertEquals("The upper member variable was altered",
+    	    	u, range.getUpperBound(), .000000001d);	
+    }
+    
     
     /*
      * equals method tests
@@ -288,6 +314,25 @@ public class RangeTest {
     public void testEquals_WithNonRangeObj() {
         Range range1 = new Range(-1.0, 5.0);
         assertFalse("equals method fails with Range(-1.0, 5.0) and double",range1.equals(5.5));  
+    }
+    // added assignment 4
+    @Test
+    public void testEquals_CheckIfMemberVarsChange() {
+        Range range1 = new Range(-1.0, 5.0);
+        Range range2 = new Range(-1.0, 600.0);
+    	double l1 = range1.getLowerBound();
+    	double u1 = range1.getUpperBound();
+    	double l2 = range2.getLowerBound();
+    	double u2 = range2.getUpperBound();
+        assertFalse("equals method fails with Range(-1.0, 5.0) and Range(-1.0, 600.0)",range1.equals(range2)); 
+    	assertEquals("The lower member variable of range1 was altered",
+    			l1, range1.getLowerBound(), .000000001d);		
+    	assertEquals("The upper member variable of range1 was altered",
+    	    	u1, range1.getUpperBound(), .000000001d);	
+    	assertEquals("The lower member variable of range1 was altered",
+    			l2, range2.getLowerBound(), .000000001d);		
+    	assertEquals("The upper member variable of range1 was altered",
+    	    	u2, range2.getUpperBound(), .000000001d);	
     }
     
     

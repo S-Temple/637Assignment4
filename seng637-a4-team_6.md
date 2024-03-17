@@ -122,6 +122,9 @@ DataUtilities:
 
 # A discussion of what could have been done to improve the mutation score of the test suites
 
+![](./media/RangeResultsAftercheckReadOnly.png)
+Results after adding checks for read only methods altering lower and upper.
+
 Add check for member var manipulation in methods that should be read only. (done for getCentralValue) add 1% to mut cover and 3% to test strength
 
 Should add ths check to every read only method and might get us up 10% on its own
