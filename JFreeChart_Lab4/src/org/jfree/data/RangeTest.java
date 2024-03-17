@@ -159,6 +159,18 @@ public class RangeTest {
     	assertEquals("The central value of 5 and 5 should be 5",
     	5.0, range.getCentralValue(), .000000001d);		    
     }
+    @Test
+    public void testGetCentralValue_CheckIfMemberVarsChange() {
+    	Range range = new Range(5.0,5.0);
+    	double l = range.getLowerBound();
+    	double u = range.getUpperBound();
+    	assertEquals("The central value of 5 and 5 should be 5",
+    	    	5.0, range.getCentralValue(), .000000001d);	
+    	assertEquals("The lower member variable was altered",
+    			l, range.getLowerBound(), .000000001d);		
+    	assertEquals("The lower member variable was altered",
+    	    	u, range.getUpperBound(), .000000001d);	
+    }
 
     /* contains method tests
      * 

@@ -31,22 +31,22 @@ In this phase, we want to increase the mutation score. For each of the classes u
  
  This mutant survives, primarily because there are no tests for constrain where value is very close to the edge of the range
  
- **Relavent code** 
+ **Relevant code** 
  ```
  double result = value;  // value is incremented AFTER being assigned to result (value++)  
-    if (!contains(value)) {    // if value was increased from within range to out of range, these conditional statements would behave differently and the mutant would be klilled.    
+    if (!contains(value)) {    // if value was increased from within range to out of range, these conditional statements would behave differently and the mutant would be killed.    
 		if (value > this.upper)     
 ```   
 Since no tests exhibit this change in behaviour due to the increment, the mutant survives. The current tests at upper bound do not catch this since the out of range value is just constrained back to the expected upper bound value.  
 This is a good example for the importance of testing values very near to the boundary values   
 
-A similar mutant existst for the post decrement (a--) behaviours near the lower bound  
+A similar mutant exists for the post decrement (a--) behaviours near the lower bound  
 
 <br /><br />
 
 *2. constrain : removed conditional - replaced equality check with true -> SURVIVED*  
  
-**Relavent code**    
+**Relevant code**    
 ```
 if (!contains(value)) {  //this is the if statement being replaced with TRUE --- if (TRUE)    
             if (value > this.upper) {  //only runs if the above conditional is true    
@@ -66,7 +66,7 @@ The opposite mutant (replacing conditional with FALSE) is correctly killed as it
 
 *3. constrain : Negated double field upper -> SURVIVED*    
     
-**Relavent code**   
+**Relevant code**   
 ```
             if (value > this.upper) {  //Negated value here --- if (value > -1*this.upper)    
                 result = this.upper;    
@@ -76,15 +76,15 @@ This mutant survives because there is only 1 test that could be affected by this
 the test is as follows range(-10, 20) and constrained value is -22.    
 Since the input value is still lower than the negated upper value (-20), the test was unaffected and the mutant survived    
     
-Adding tests with similar equivalence classes but differeing values would kill more mutants like this. Increasing the diversity of the tests at the cost taking more time to implement and run them    
+Adding tests with similar equivalence classes but differing values would kill more mutants like this. Increasing the diversity of the tests at the cost taking more time to implement and run them    
     
 **getCentralValue mutants:**
 
 ![](media/RangegetCentralValue.png)
-> getCentralValue() is a single statment method.
+> getCentralValue() is a single statement method.
 ![](media/RangegetCentralValueMutants.png)
 > 47 different mutations applied to this single line.
-> - Mutation type 1 substituted the values 2.0 with 1.0 (Mutation 1, 2, 28, 29, 38, 39): Replaces the constant 2.0 with 1.0 in the expression this.lower / 2.0 + this.upper / 2.0. This type of mutation was always detected by the test suite meanign it triggered a test failure and was "KILLED". It makes sense that it would be detected as it changes the expression in a way that cause a incorrect value to be returned.
+> - Mutation type 1 substituted the values 2.0 with 1.0 (Mutation 1, 2, 28, 29, 38, 39): Replaces the constant 2.0 with 1.0 in the expression this.lower / 2.0 + this.upper / 2.0. This type of mutation was always detected by the test suite meaning it triggered a test failure and was "KILLED". It makes sense that it would be detected as it changes the expression in a way that cause a incorrect value to be returned.
 > - Mutation type 2 replaced math operators with different operations. (Mutations 3, 4, 5, 16, 17, 18): For the same reasons as the first type the return value will be incorrect and the test will fail. 
 > - Mutation type 3 replaces the math expression with 0.0d (Mutation 6): Any test expecting a value of 0.0 may pass but the rest fail causing the Mutation to be killed.
 > - Mutation type 4 replaces the math expression x with -(x-1). (Mutation 7) example: 
@@ -96,7 +96,7 @@ Adding tests with similar equivalence classes but differeing values would kill m
 > return -(this.lower / 2.0 + this.upper / 2.0 + 1);
 > 
 > The wrong value will be returned and caught by the Junit test killing the Mutation.
-> - Most of the rest of the tests follow a simlar pattern causeing return value to be incorrect; except for the postix operation mutations(Mutations 40, 41, 42, 43):
+> - Most of the rest of the tests follow a similar pattern causing return value to be incorrect; except for the postfix operation mutations(Mutations 40, 41, 42, 43):
 > 
 > This is because the postfix operator doesn't change the upper and lower values until after the upper and lower values are used in the math expression. The return value is unaffected so all tests pass. 
 > 
@@ -121,6 +121,10 @@ DataUtilities:
 # A discussion on the effect of equivalent mutants on mutation score accuracy
 
 # A discussion of what could have been done to improve the mutation score of the test suites
+
+Add check for member var manipulation in methods that should be read only. (done for getCentralValue) add 1% to mut cover and 3% to test strength
+
+Should add ths check to every read only method and might get us up 10% on its own
 
 # Why do we need mutation testing? Advantages and disadvantages of mutation testing
 
