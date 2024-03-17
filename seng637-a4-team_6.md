@@ -11,55 +11,6 @@
 | Raisa Mehjabin Azni            |   
 | Eric Yoon            |   
 
-## 2.5 INSTRUCTIONS
-
-## 2.5.1 Mutation Testing
-
-You should run Pitest on your own test suites `DataUtilitiesTest`** and `RangeTest`** from assignment 3.
-
-### 2.5.2 Create a new Eclipse project
-
-Add the JFreeChart source code given in assignment 4 to your project. Add all libraries into your project. Add the given sample test codes (provided in this assignment) into your project.
-
-## 2.5.3 Add your own Test Suites from lab 3 into your new project.
-
-### 2.5.4 Run Mutation Testing on the sample test cases
-
-As a practice, run mutation tests on the test cases provided under `org.jfree.data.junit` in the test folder of _JFreeChart_Lab4_ project. Record all results. (Right click on the `org.jfree.data.junit` and then run as PIT Mutation Test)
-
-
-1.  Note that in order to run mutation tools successfully, your test cases must pass (all green). For example, the `DataUtilitiesTes` test case has error in `org.jfree.data.junit`, running Pitest you will get exception. If there is any defect that is found by the tests (error/failure), they need to be fixed in the code before running the mutation tool.
-
-![](media/6-Run-Junit.png)
-
-![](media/7-Pass-Junit.png)
-
-![](media/8-PIT-Mutation-Test.png)
-
-
-2.  Expect that mutation testing of some classes might take long time. Let the tool runs and do not terminate it until the test ends and you get the mutation testing reports.
-
-
-> ![](./media/3-PIT-Summary.png)
-
-
-
-> ![](./media/4-PIT-Mutations.png)
-
-
-> ![](./media/5-Console.png)
-
-### 2.5.5 Run Mutation Testing on your own test cases
-
-- Run mutation tests on your `Range` test classes from assignment 3. Record all results.
-
-- Run mutation tests on your `DataUtilities` test classes from lab 3. Record all results.
-
-  - You might require to fix your test codes, if you find out that your test cases are not correct.
-
-  - You might require to fix the source code, if your test code detects any defect.
-
-- Analysis of at least 10 mutants produced by Pitest for the `Range` class, and how they are killed or not by your original test suite
 
 ### 2.5.6 Equivalent Mutants
 
@@ -136,7 +87,7 @@ Adding tests with similar equivalence classes but differeing values would kill m
 > - Mutation type 1 substituted the values 2.0 with 1.0 (Mutation 1, 2, 28, 29, 38, 39): Replaces the constant 2.0 with 1.0 in the expression this.lower / 2.0 + this.upper / 2.0. This type of mutation was always detected by the test suite meanign it triggered a test failure and was "KILLED". It makes sense that it would be detected as it changes the expression in a way that cause a incorrect value to be returned.
 > - Mutation type 2 replaced math operators with different operations. (Mutations 3, 4, 5, 16, 17, 18): For the same reasons as the first type the return value will be incorrect and the test will fail. 
 > - Mutation type 3 replaces the math expression with 0.0d (Mutation 6): Any test expecting a value of 0.0 may pass but the rest fail causing the Mutation to be killed.
-> - Mutation type 4 replaces the math expression x with -(x-1). (Mutation 7): 
+> - Mutation type 4 replaces the math expression x with -(x-1). (Mutation 7) example: 
 > 
 > return this.lower / 2.0 + this.upper / 2.0;
 > 
@@ -146,7 +97,10 @@ Adding tests with similar equivalence classes but differeing values would kill m
 > 
 > The wrong value will be returned and caught by the Junit test killing the Mutation.
 > - Most of the rest of the tests follow a simlar pattern causeing return value to be incorrect; except for the postix operation mutations(Mutations 40, 41, 42, 43):
-> This is because the postfix operator doesn't change the upper and lower values until after the upper and lower values are used in the math expression. The return value is unaffected so all tests pass. The value of lower and upper are incremented in the function when they shouldn't be. In C++ the method could be made const preventing writing to member variables, not sure solution here? just create a test that upper and lower member variables are unchanged from start of method?
+> 
+> This is because the postfix operator doesn't change the upper and lower values until after the upper and lower values are used in the math expression. The return value is unaffected so all tests pass. 
+> 
+> The value of lower and upper are incremented in the function when they shouldn't be. In C++ the method could be made const preventing writing to member variables, not sure solution here? just create a test that upper and lower member variables are unchanged from start of method?
 
 
 
