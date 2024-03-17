@@ -74,37 +74,35 @@ In this phase, we want to increase the mutation score. For each of the classes u
 
 # Analysis of 10 Mutants of the Range class 
 
-Constrain mutants:
+**Constrain mutants:**
  
- 1. constrain : Incremented (a++) double local variable number 1 -> Survived
+ *1. constrain : Incremented (a++) double local variable number 1 -> Survived*
  
  This mutant survives, primarily because there are no tests for constrain where value is very close to the edge of the range
  
- **Relavent code**
- double result = **value**;  // value is incremented AFTER being assigned to result (value++)
-    if (!contains(value)) {    // if value was increased from within range to out of range, these conditional statements would behave differently and the mutant would be klilled.
-		if (value > this.upper)  
+ **Relavent code** 
+ 
+ double result = **value**;  // value is incremented AFTER being assigned to result (value++)  
+    if (!contains(value)) {    // if value was increased from within range to out of range, these conditional statements would behave differently and the mutant would be klilled.    
+		if (value > this.upper)     
 
-Since no tests exhibit this change in behaviour due to the increment, the mutant survives. The current tests at upper bound do not catch this since the out of range value is just constrained back to the expected upper bound value.
-This is a good example for the importance of testing values very near to the boundary values 
+Since no tests exhibit this change in behaviour due to the increment, the mutant survives. The current tests at upper bound do not catch this since the out of range value is just constrained back to the expected upper bound value.  
+This is a good example for the importance of testing values very near to the boundary values   
 
+A similar mutant existst for the post decrement (a--) behaviours near the lower bound  
 
-A similar mutant existst for the post decrement (a--) behaviours near the lower bound
-
-
-
-2. constrain : removed conditional - replaced equality check with true -> SURVIVED
-
-**Relavent code**
-if (**!contains(value)**) {  //this is the if statement being replaced with TRUE --- if (TRUE)
-            if (value > this.upper) {  //only runs if the above conditional is true
-                result = this.upper;
-            }
-            else if (value < this.lower) { //else if... also can only run if the parent conditional is true
-                result = this.lower;
-            }
-        }
-		
+*2. constrain : removed conditional - replaced equality check with true -> SURVIVED *  
+ 
+**Relavent code**    
+if (**!contains(value)**) {  //this is the if statement being replaced with TRUE --- if (TRUE)    
+            if (value > this.upper) {  //only runs if the above conditional is true    
+                result = this.upper;    
+            }    
+            else if (value < this.lower) { //else if... also can only run if the parent conditional is true    
+                result = this.lower;    
+            }    
+        }    
+  		
 This mutant survives, because the enclosed if statements also implicitly check that the value is within the range. If the value is out of range but gets to these checks anyway (due to the mutant), nothing happens.
 As a result this mutant cannot be killed without changing the actual code to be less robust(for example changing the child if statements to end with 'else').
 
@@ -112,20 +110,20 @@ The opposite mutant (replacing conditional with FALSE) is correctly killed as it
 
 
 
-3. constrain : Negated double field upper -> SURVIVED
-
-**Relavent code**
-            if (value > **this.upper**) {  //Negated value here --- if (value > -1*this.upper)
-                result = this.upper;
-            }
-
-This mutant survives because there is only 1 test that could be affected by this mutant but the effect is barely missed
-the test is as follows range(-10, 20) and constrained value is -22.
-Since the input value is still lower than the negated upper value (-20), the test was unaffected and the mutant survived
-
-Adding tests with similar equivalence classes but differeing values would kill more mutants like this. Increasing the diversity of the tests at the cost taking more time to implement and run them
-
-# Report all the statistics and the mutation score for each test class
+*3. constrain : Negated double field upper -> SURVIVED*    
+    
+**Relavent code**    
+            if (value > **this.upper**) {  //Negated value here --- if (value > -1*this.upper)    
+                result = this.upper;    
+            }    
+    
+This mutant survives because there is only 1 test that could be affected by this mutant but the effect is barely missed    
+the test is as follows range(-10, 20) and constrained value is -22.    
+Since the input value is still lower than the negated upper value (-20), the test was unaffected and the mutant survived    
+    
+Adding tests with similar equivalence classes but differeing values would kill more mutants like this. Increasing the diversity of the tests at the cost taking more time to implement and run them    
+    
+# Report all the statistics and the mutation score for each test class  
 NOTE: These values include the methods that are not covered by any test cases
 
 Range:
