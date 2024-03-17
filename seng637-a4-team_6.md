@@ -91,6 +91,8 @@ This is a good example for the importance of testing values very near to the bou
 
 A similar mutant existst for the post decrement (a--) behaviours near the lower bound  
 
+<br /><br />
+
 *2. constrain : removed conditional - replaced equality check with true -> SURVIVED*  
  
 **Relavent code**    
@@ -109,7 +111,7 @@ As a result this mutant cannot be killed without changing the actual code to be 
 
 The opposite mutant (replacing conditional with FALSE) is correctly killed as it prevents the interior code from ever running
 
-
+<br /><br />
 
 *3. constrain : Negated double field upper -> SURVIVED*    
     
