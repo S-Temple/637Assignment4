@@ -108,13 +108,31 @@ Adding tests with similar equivalence classes but differing values would kill mo
 # Report all the statistics and the mutation score for each test class
 NOTE: These values include the methods that are not covered by any test cases
 
+ComperableObjectItemTest:
+
+ComperableObjectSeriesTest:
+
+DefaultKeyedValues2DTest:
+
+DefaultKeyedValuesTest:
+
+DefaultKeyedValueTest:
+
+DomainOrderTest:
+
+KeyedObjects2DTest:
+
+KeyedObjectsTest:
+
+KeyedObjectTest:
+
+
+
 Range:
 ![](./media/10-RangeMutations.png)
 
-
 DataUtilities:
 ![](./media/11-DataUtilitiesMutations.png)
-
 
 # Analysis drawn on the effectiveness of each of the test classes
 
