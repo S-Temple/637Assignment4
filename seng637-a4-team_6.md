@@ -108,25 +108,38 @@ Adding tests with similar equivalence classes but differing values would kill mo
 # Report all the statistics and the mutation score for each test class
 NOTE: These values include the methods that are not covered by any test cases
 
-ComperableObjectItemTest:
+ComperableObjectItem:
+![](./media/13-comperableobjectitem.png)
 
-ComperableObjectSeriesTest:
+ComperableObjectSeries:
+![](./media/14-comperableobjectseries.png)
 
-DefaultKeyedValues2DTest:
+DefaultKeyedValues2D:
+![](./media/15-defaultkeyedvalues2D.png)
 
-DefaultKeyedValuesTest:
+DefaultKeyedValues:
+![](./media/16-defaultkeyedvalues.png)
 
-DefaultKeyedValueTest:
+DefaultKeyedValue:
+![](./media/17-defaultkeyedvalue.png)
 
-DomainOrderTest:
+DomainOrder:
+![](./media/18-domainorder.png)
 
-KeyedObjects2DTest:
+KeyedObjects2D:
+![](./media/19-keyedobjects2D.png)
 
-KeyedObjectsTest:
+KeyedObjects:
+![](./media/20-keyedobjects.png)
 
-KeyedObjectTest:
+KeyedObject:
+![](./media/21-keyedobject.png)
 
+KeyToGroupMap:
+![](./media/22-keytogroupmap.png)
 
+RangeType:
+![](./media/23-rangetype.png)
 
 Range:
 ![](./media/10-RangeMutations.png)
