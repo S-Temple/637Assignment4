@@ -192,6 +192,28 @@ DataUtilities:
 
 # A discussion on the effect of equivalent mutants on mutation score accuracy
 
+Mutants are considered equivalent if they don't introduce detectable faults that can be caught by a test suite. To detect mutants entirely automatically would be quite difficult since there is no functionality within PIT or Stryker to do this. However, a combination of manual inspection and automated detection can be used to find equivalent mutants through the following steps:
+
+1. Run the mutation and filter out all killed mutants, since killed mutants cannot be equivalent.
+2. Look at each survived mutant and examine it thoroughly, find if the mutant could ever lead to a different output or side effect under any input conditions. If the mutant never leads to a different output, its equivalent.
+3. Check if the mutated operation is critical for the method's outcome, or if it has no effect on observable behavior but is involved in background computations. If it does have an effect on observable behavior but produces the same outcome as the non mutated operation, it is equivalent.
+
+A benefit of this strategy is that test coverage and quality will be improved as equivalent mutants are killed. Furthermore, this process will help the tester gain a depper understanding of the codebase. Disadvantages of this approach include its high complexity and time comsumption to complete. The strategy assumes that the test suite is complete and can detect non-equivalent mutants, while it also assumes the tester has a good understanding of the program's behavior.
+
+**Equivalent Mutants in Range**
+
+Mutation 91-5 (Survived): Negated double local variable number 1.
+Mutation 91-6 (Survived): Incremented (a++) double local variable number 1.
+Mutation 91-7 (Survived): Decremented (a--) double local variable number 1.
+These mutations involve arithmetic operations on double variables and all survived, indicating that the test suite might not be effectively checking the results of such operations due to a lack of assert statements specifically targeting the effects of these arithmetic manipulations or the presence of values that do not significantly affect the outcome in a way that the tests can detect.
+
+**Equivalent Mutants in DataUtilities**
+
+Mutation 155-3 (Survived): removed conditional - replaced comparison check with true.
+Mutation 155-4 (Survived): greater or equal to equal.
+Mutation 155-9 (Survived): greater or equal to greater than.
+These mutations are equivalent because they all involve alterations to conditional logic that affect how decisions are made in the code, and they all survived. They demonstrate that the tests do not adequately cover scenarios where these conditional checks are manipulated, potentially indicating areas where the test coverage could be improved.
+
 # A discussion of what could have been done to improve the mutation score of the test suites
 
 ![](./media/RangeResultsAftercheckReadOnly.png)
