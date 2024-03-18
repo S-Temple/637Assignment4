@@ -428,6 +428,97 @@ public class RangeTest {
 			assertEquals("The resulting value should match the lower/upper bound of the range",
 					1, result, .000000001d);
 			}
+			
+		/*
+		 * tests to kill more MUTANTS in Constrain -assignment 4
+		 */
+		
+		//constraining an in-range value should return the in-range value. this test is to kill mutants that post decrement the input value to be out of the range  
+		@Test
+		public void testConstrainFromJustAboveLowerBound() {
+			Double result = constrainRange.constrain(-9.999);
+			
+			assertEquals("The resulting value should match the in range input value",
+					-9.999, result, .000000001d);
+			}
+		
+		//constraining an out-of-range value should return the boundary. this test is to kill mutants that post increment the input value to be in the range  
+		@Test
+		public void testConstrainFromJustBelowLowerBound() {
+			Double result = constrainRange.constrain(-10.001);
+			
+			assertEquals("The resulting value should match the lower bound",
+					-10, result, .000000001d);
+			}
+		
+		//constraining an in-range value should return the in-range value. this test is to kill mutants that post increment the input value to be out of the range  
+		@Test
+		public void testConstrainFromJustBelowUpperBound() {
+			Double result = constrainRange.constrain(19.999);
+			
+			assertEquals("The resulting value should match the in range input value",
+					19.999, result, .000000001d);
+			}
+		
+		//constraining an out-of-range value should return the boundary. this test is to kill mutants that post decrement the input value to be in the range  
+				@Test
+				public void testConstrainFromJustAboveUpperBound() {
+					Double result = constrainRange.constrain(20.001);
+					
+					assertEquals("The resulting value should match the upper bound",
+							20, result, .000000001d);
+					}
+		
+		//constraining from below range, should return lower bound, added to kill mutant where upper value is negated during comparison
+	    @Test
+	    public void testConstrain_NegateUpperMutant() {
+	    	Range range = new Range(10, 20);
+			Double result = range.constrain(-10);
+			
+			assertEquals("The resulting value should match the lower bound of the range",
+					10, result, .000000001d);
+			}
+				
+	  //constraining from below range, should return lower bound, added to kill mutant where lower value is negated during comparison
+	    @Test
+	    public void testConstrain_NegateLowerMutant() {
+	    	Range range = new Range(10, 20);
+			Double result = range.constrain(-5);
+			
+			assertEquals("The resulting value should match the lower bound of the range",
+					10, result, .000000001d);
+			}
+	    
+	 // added assignment 4, make sure bounds do not change
+	    @Test
+	    public void testConstrain_CheckIfBoundsChangeAboveConstrain() {
+	    	Range range = new Range(1.0, 2.0);
+	    	double l = 1.0;
+	    	double u = 2.0;
+	    	Double result = range.constrain(5);
+	    	assertEquals("The resulting value should be the upper bound",
+	    	    	2.0, result, .000000001d);	
+	    	assertEquals("The lower member variable was altered",
+	    			l, range.getLowerBound(), .000000001d);		
+	    	assertEquals("The upper member variable was altered",
+	    	    	u, range.getUpperBound(), .000000001d);	
+	    }
+	    
+	    // added assignment 4, make sure bounds do not change
+	    @Test
+	    public void testConstrain_CheckIfBoundsChangeBelowConstrain() {
+	    	Range range = new Range(1.0, 2.0);
+	    	double l = 1.0;
+	    	double u = 2.0;
+	    	Double result = range.constrain(-5.0);
+	    	assertEquals("The resulting value should be the upper bound",
+	    	    	1.0, result, .000000001d);	
+	    	assertEquals("The lower member variable was altered",
+	    			l, range.getLowerBound(), .000000001d);		
+	    	assertEquals("The upper member variable was altered",
+	    	    	u, range.getUpperBound(), .000000001d);	
+	    }
+
     
     @After
     public void tearDown() throws Exception {
