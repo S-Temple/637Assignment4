@@ -109,37 +109,37 @@ Adding tests with similar equivalence classes but differing values would kill mo
 NOTE: These values include the methods that are not covered by any test cases
 
 ComperableObjectItem:
-![](./media/13-comperableobjectitem.png)
+![](./media/13-comperableobjectitem.PNG)
 
 ComperableObjectSeries:
-![](./media/14-comperableobjectseries.png)
+![](./media/14-comperableobjectseries.PNG)
 
 DefaultKeyedValues2D:
-![](./media/15-defaultkeyedvalues2D.png)
+![](./media/15-defaultkeyedvalues2D.PNG)
 
 DefaultKeyedValues:
-![](./media/16-defaultkeyedvalues.png)
+![](./media/16-defaultkeyedvalues.PNG)
 
 DefaultKeyedValue:
-![](./media/17-defaultkeyedvalue.png)
+![](./media/17-defaultkeyedvalue.PNG)
 
 DomainOrder:
-![](./media/18-domainorder.png)
+![](./media/18-domainorder.PNG)
 
 KeyedObjects2D:
-![](./media/19-keyedobjects2D.png)
+![](./media/19-keyedobjects2D.PNG)
 
 KeyedObjects:
-![](./media/20-keyedobjects.png)
+![](./media/20-keyedobjects.PNG)
 
 KeyedObject:
-![](./media/21-keyedobject.png)
+![](./media/21-keyedobject.PNG)
 
 KeyToGroupMap:
-![](./media/22-keytogroupmap.png)
+![](./media/22-keytogroupmap.PNG)
 
 RangeType:
-![](./media/23-rangetype.png)
+![](./media/23-rangetype.PNG)
 
 Range:
 ![](./media/10-RangeMutations.png)
