@@ -124,20 +124,18 @@ This mutant survived, likely because the test cases are rounding or don't assert
 > - Mutation type 3 replaces the math expression with 0.0d (Mutation 6): Any test expecting a value of 0.0 may pass but the rest fail causing the Mutation to be killed.
 > - Mutation type 4 replaces the math expression x with -(x-1). (Mutation 7) example: 
 > 
-> return this.lower / 2.0 + this.upper / 2.0;
+>  return this.lower / 2.0 + this.upper / 2.0;
 > 
 > becomes:
 > 
-> return -(this.lower / 2.0 + this.upper / 2.0 + 1);
+>   return -(this.lower / 2.0 + this.upper / 2.0 + 1);
 > 
 > The wrong value will be returned and caught by the Junit test killing the Mutation.
 > - Most of the rest of the tests follow a similar pattern causing return value to be incorrect; except for the postfix operation mutations(Mutations 40, 41, 42, 43):
 > 
 > This is because the postfix operator doesn't change the upper and lower values until after the upper and lower values are used in the math expression. The return value is unaffected so all tests pass. 
 > 
-> The value of lower and upper are incremented in the function when they shouldn't be. In C++ the method could be made const preventing writing to member variables, not sure solution here? just create a test that upper and lower member variables are unchanged from start of method?
-
-
+> The value of lower and upper are incremented in the function when they shouldn't be. In C++ the method could be made const preventing writing to member variables, we will have to write tests to check for member variable manipulation in methods that should be read only.
 
 
 # Report all the statistics and the mutation score for each test class
@@ -190,6 +188,7 @@ DataUtilities:
 
 # Analysis drawn on the effectiveness of each of the test classes
 
+
 # A discussion on the effect of equivalent mutants on mutation score accuracy
 
 Mutants are considered equivalent if they don't introduce detectable faults that can be caught by a test suite. To detect mutants entirely automatically would be quite difficult since there is no functionality within PIT or Stryker to do this. However, a combination of manual inspection and automated detection can be used to find equivalent mutants through the following steps:
@@ -198,7 +197,7 @@ Mutants are considered equivalent if they don't introduce detectable faults that
 2. Look at each survived mutant and examine it thoroughly, find if the mutant could ever lead to a different output or side effect under any input conditions. If the mutant never leads to a different output, its equivalent.
 3. Check if the mutated operation is critical for the method's outcome, or if it has no effect on observable behavior but is involved in background computations. If it does have an effect on observable behavior but produces the same outcome as the non mutated operation, it is equivalent.
 
-A benefit of this strategy is that test coverage and quality will be improved as equivalent mutants are killed. Furthermore, this process will help the tester gain a depper understanding of the codebase. Disadvantages of this approach include its high complexity and time comsumption to complete. The strategy assumes that the test suite is complete and can detect non-equivalent mutants, while it also assumes the tester has a good understanding of the program's behavior.
+A benefit of this strategy is that test coverage and quality will be improved as equivalent mutants are killed. Furthermore, this process will help the tester gain a deeper understanding of the codebase. Disadvantages of this approach include its high complexity and time consumption to complete. The strategy assumes that the test suite is complete and can detect non-equivalent mutants, while it also assumes the tester has a good understanding of the program's behavior.
 
 **Equivalent Mutants in Range**
 
@@ -221,16 +220,16 @@ Mutation 155-9 (Survived): greater or equal to greater than.
 These mutations are equivalent because they all involve alterations to conditional logic that affect how decisions are made in the code, and they all survived. They demonstrate that the tests do not adequately cover scenarios where these conditional checks are manipulated, potentially indicating areas where the test coverage could be improved.
 
 # A discussion of what could have been done to improve the mutation score of the test suites
-
+> Before adding more tests
 ![](./media/RangeResultsAftercheckReadOnly.png)
-Results after adding checks for read only methods altering lower and upper.
 
-Add check for member var manipulation in methods that should be read only. (done for getCentralValue) add 1% to mut cover and 3% to test strength
+> Tests for methods changing member variables in read only methods were added.
 
-Should add ths check to every read only method and might get us up 10% on its own
+> Constrain tests..
 
+> Results after these additions.
 ![](./media/rangefinal.PNG)
-Results after adding several tests.
+
 
 # Why do we need mutation testing? Advantages and disadvantages of mutation testing
 
