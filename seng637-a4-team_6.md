@@ -108,6 +108,12 @@ Adding tests with similar equivalence classes but differing values would kill mo
 # Report all the statistics and the mutation score for each test class
 NOTE: These values include the methods that are not covered by any test cases
 
+RangeSample:
+![](./media/24-rangesample.PNG)
+
+DataUtilitiesSample:
+![](./media/25-datasample.PNG)
+
 ComperableObjectItem:
 ![](./media/13-comperableobjectitem.PNG)
 
