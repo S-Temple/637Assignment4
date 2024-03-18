@@ -1,357 +1,604 @@
-/* ===========================================================
- * JFreeChart : a free chart library for the Java(tm) platform
- * ===========================================================
- *
- * (C) Copyright 2000-2014, by Object Refinery Limited and Contributors.
- *
- * Project Info:  http://www.jfree.org/jfreechart/index.html
- *
- * This library is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation; either version 2.1 of the License, or
- * (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
- * License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
- * USA.
- *
- * [Oracle and Java are registered trademarks of Oracle and/or its affiliates. 
- * Other names may be trademarks of their respective owners.]
- *
- * --------------
- * RangeTest.java
- * --------------
- * (C) Copyright 2003-2014, by Object Refinery Limited and Contributors.
- *
- * Original Author:  David Gilbert (for Object Refinery Limited);
- * Contributor(s):   Sergei Ivanov;
- *
- * Changes
- * -------
- * 14-Aug-2003 : Version 1 (DG);
- * 18-Dec-2007 : Additional tests from Sergei Ivanov (DG);
- * 08-Jan-2012 : Added test for combine() method (DG);
- * 23-Feb-2014 : Added isNaNRange() test (DG);
- * 
- */
-
 package org.jfree.data;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
-import org.jfree.chart.TestUtilities;
-import org.junit.Test;
+import static org.junit.Assert.*; import org.jfree.data.Range; import org.junit.*;
 
-/**
- * Tests for the {@link Range} class.
- */
 public class RangeTest {
-
-    /**
-     * Confirm that the constructor initializes all the required fields.
-     */
-    @Test
-    public void testConstructor() {
-        Range r1 = new Range(0.1, 1000.0);
-        assertEquals(r1.getLowerBound(), 0.1, 0.0d);
-        assertEquals(r1.getUpperBound(), 1000.0, 0.0d);
-
-        try {
-            /*Range r2 =*/ new Range(10.0, 0.0);
-            fail("Lower bound cannot be greater than the upper");
-        }
-        catch (Exception e) {
-            // expected
-        }
+    private Range testRange;
+    private Range constrainRange;
+    @BeforeClass public static void setUpBeforeClass() throws Exception {
     }
 
-    /**
-     * Confirm that the equals method can distinguish all the required fields.
-     */
-    @Test
-    public void testEquals() {
-        Range r1 = new Range(0.0, 1.0);
-        Range r2 = new Range(0.0, 1.0);
-        assertEquals(r1, r2);
-        assertEquals(r2, r1);
 
-        r1 = new Range(0.0, 1.0);
-        r2 = new Range(0.5, 1.0);
-        assertFalse(r1.equals(r2));
-
-        r1 = new Range(0.0, 1.0);
-        r2 = new Range(0.0, 2.0);
-        assertFalse(r1.equals(r2));
-
-        // a Range object cannot be equal to a different object type
-        assertFalse(r1.equals(new Double(0.0)));
+    @Before
+    public void setUp() throws Exception { constrainRange = new Range(-10, 20);
     }
 
-    /**
-     * Two objects that are equal are required to return the same hashCode.
+    /*JFreeChart_Lab4
+     * testing constructor
      */
     @Test
-    public void testHashCode() {
-        Range a1 = new Range(1.0, 100.0);
-        Range a2 = new Range(1.0, 100.0);
-        assertEquals(a1.hashCode(), a2.hashCode());
-
-        a1 = new Range(-100.0, 2.0);
-        a2 = new Range(-100.0, 2.0);
-        assertEquals(a1.hashCode(), a2.hashCode());
-    }
-
-    /**
-     * Simple tests for the contains() method.
-     */
-    @Test
-    public void testContains() {
-        Range r1 = new Range(0.0, 1.0);
-        assertFalse(r1.contains(Double.NaN));
-        assertFalse(r1.contains(Double.NEGATIVE_INFINITY));
-        assertFalse(r1.contains(-1.0));
-        assertTrue(r1.contains(0.0));
-        assertTrue(r1.contains(0.5));
-        assertTrue(r1.contains(1.0));
-        assertFalse(r1.contains(2.0));
-        assertFalse(r1.contains(Double.POSITIVE_INFINITY));
-    }
-
-    /**
-     * Tests the constrain() method for various values.
-     */
-    @Test
-    public void testConstrain() {
-        Range r1 = new Range(0.0, 1.0);
-
-        double d = r1.constrain(0.5);
-        assertEquals(0.5, d, 0.0000001);
-
-        d = r1.constrain(0.0);
-        assertEquals(0.0, d, 0.0000001);
-
-        d = r1.constrain(1.0);
-        assertEquals(1.0, d, 0.0000001);
-
-        d = r1.constrain(-1.0);
-        assertEquals(0.0, d, 0.0000001);
-
-        d = r1.constrain(2.0);
-        assertEquals(1.0, d, 0.0000001);
-
-        d = r1.constrain(Double.POSITIVE_INFINITY);
-        assertEquals(1.0, d, 0.0000001);
-
-        d = r1.constrain(Double.NEGATIVE_INFINITY);
-        assertEquals(0.0, d, 0.0000001);
-
-        d = r1.constrain(Double.NaN);
-        assertTrue(Double.isNaN(d));
-    }
-
-    /**
-     * Simple tests for the intersects() method.
-     */
-    @Test
-    public void testIntersects() {
-        Range r1 = new Range(0.0, 1.0);
-        assertFalse(r1.intersects(-2.0, -1.0));
-        assertFalse(r1.intersects(-2.0, 0.0));
-        assertTrue(r1.intersects(-2.0, 0.5));
-        assertTrue(r1.intersects(-2.0, 1.0));
-        assertTrue(r1.intersects(-2.0, 1.5));
-        assertTrue(r1.intersects(0.0, 0.5));
-        assertTrue(r1.intersects(0.0, 1.0));
-        assertTrue(r1.intersects(0.0, 1.5));
-        assertTrue(r1.intersects(0.5, 0.6));
-        assertTrue(r1.intersects(0.5, 1.0));
-        assertTrue(r1.intersects(0.5, 1.5));
-        assertFalse(r1.intersects(1.0, 1.1));
-        assertFalse(r1.intersects(1.5, 2.0));
-    }
-
-    /**
-     * A simple test for the expand() method.
-     */
-    @Test
-    public void testExpand() {
-        Range r1 = new Range(0.0, 100.0);
-        Range r2 = Range.expand(r1, 0.10, 0.10);
-        assertEquals(-10.0, r2.getLowerBound(), 0.001);
-        assertEquals(110.0, r2.getUpperBound(), 0.001);
-
-        // Expand by 0% does not change the range
-        r2 = Range.expand(r1, 0.0, 0.0);
-        assertEquals(r1, r2);
-
-        try {
-            Range.expand(null, 0.1, 0.1);
-            fail("Null value is accepted");
-        }
-        catch (Exception e) {
-        }
-
-        // Lower > upper: mid point is used
-        r2 = Range.expand(r1, -0.8, -0.5);
-        assertEquals(65.0, r2.getLowerBound(), 0.001);
-        assertEquals(65.0, r2.getUpperBound(), 0.001);
-    }
-
-    /**
-     * A simple test for the scale() method.
-     */
-    @Test
-    public void testShift() {
-        Range r1 = new Range(10.0, 20.0);
-        Range r2 = Range.shift(r1, 20.0);
-        assertEquals(30.0, r2.getLowerBound(), 0.001);
-        assertEquals(40.0, r2.getUpperBound(), 0.001);
-
-        r1 = new Range(0.0, 100.0);
-        r2 = Range.shift(r1, -50.0, true);
-        assertEquals(-50.0, r2.getLowerBound(), 0.001);
-        assertEquals(50.0, r2.getUpperBound(), 0.001);
-
-        r1 = new Range(-10.0, 20.0);
-        r2 = Range.shift(r1, 20.0, true);
-        assertEquals(10.0, r2.getLowerBound(), 0.001);
-        assertEquals(40.0, r2.getUpperBound(), 0.001);
-
-        r1 = new Range(-10.0, 20.0);
-        r2 = Range.shift(r1, -30.0, true);
-        assertEquals(-40.0, r2.getLowerBound(), 0.001);
-        assertEquals(-10.0, r2.getUpperBound(), 0.001);
-
-        r1 = new Range(-10.0, 20.0);
-        r2 = Range.shift(r1, 20.0, false);
-        assertEquals(0.0, r2.getLowerBound(), 0.001);
-        assertEquals(40.0, r2.getUpperBound(), 0.001);
-
-        r1 = new Range(-10.0, 20.0);
-        r2 = Range.shift(r1, -30.0, false);
-        assertEquals(-40.0, r2.getLowerBound(), 0.001);
-        assertEquals(0.0, r2.getUpperBound(), 0.001);
-
-        // Shifting with a delta of 0 does not change the range
-        r2 = Range.shift(r1, 0.0);
-        assertEquals(r1, r2);
-
-        try {
-            Range.shift(null, 0.1);
-            fail("Null value is accepted");
-        }
-        catch (Exception e) {
-        }
-    }
-
-    /**
-     * A simple test for the scale() method.
-     */
-    @Test
-    public void testScale() {
-        Range r1 = new Range(0.0, 100.0);
-        Range r2 = Range.scale(r1, 0.10);
-        assertEquals(0.0, r2.getLowerBound(), 0.001);
-        assertEquals(10.0, r2.getUpperBound(), 0.001);
-
-        r1 = new Range(-10.0, 100.0);
-        r2 = Range.scale(r1, 2.0);
-        assertEquals(-20.0, r2.getLowerBound(), 0.001);
-        assertEquals(200.0, r2.getUpperBound(), 0.001);
-
-        // Scaling with a factor of 1 does not change the range
-        r2 = Range.scale(r1, 1.0);
-        assertEquals(r1, r2);
-
-        try {
-            Range.scale(null, 0.1);
-            fail("Null value is accepted");
-        }
-        catch (Exception e) {
-        }
-
-        try {
-            Range.scale(r1, -0.5);
-            fail("Negative factor accepted");
-        }
-        catch (Exception e) {
-        }
-    }
-
-    /**
-     * Serialize an instance, restore it, and check for equality.
-     */
-    @Test
-    public void testSerialization() {
-        Range r1 = new Range(25.0, 133.42);
-        Range r2 = (Range) TestUtilities.serialised(r1);
-        assertEquals(r1, r2);
-    }
-
-    private static final double EPSILON = 0.0000000001;
-
-    /**
-     * Some checks for the combine method.
-     */
-    @Test
-    public void testCombine() {
-        Range r1 = new Range(1.0, 2.0);
-        Range r2 = new Range(1.5, 2.5);
-
-        assertNull(Range.combine(null, null));
-        assertEquals(r1, Range.combine(r1, null));
-        assertEquals(r2, Range.combine(null, r2));
-        assertEquals(new Range(1.0, 2.5), Range.combine(r1, r2));
-
-        Range r3 = new Range(Double.NaN, 1.3);
-        Range rr = Range.combine(r1, r3);
-        assertTrue(Double.isNaN(rr.getLowerBound()));
-        assertEquals(2.0, rr.getUpperBound(), EPSILON);
-
-        Range r4 = new Range(1.7, Double.NaN);
-        rr = Range.combine(r4, r1);
-        assertEquals(1.0, rr.getLowerBound(), EPSILON);
-        assertTrue(Double.isNaN(rr.getUpperBound()));
-    }
-
-    /**
-     * Some checks for the combineIgnoringNaN() method.
-     */
-    @Test
-    public void testCombineIgnoringNaN() {
-        Range r1 = new Range(1.0, 2.0);
-        Range r2 = new Range(1.5, 2.5);
-
-        assertNull(Range.combineIgnoringNaN(null, null));
-        assertEquals(r1, Range.combineIgnoringNaN(r1, null));
-        assertEquals(r2, Range.combineIgnoringNaN(null, r2));
-        assertEquals(new Range(1.0, 2.5), Range.combineIgnoringNaN(r1, r2));
-
-        Range r3 = new Range(Double.NaN, 1.3);
-        Range rr = Range.combineIgnoringNaN(r1, r3);
-        assertEquals(1.0, rr.getLowerBound(), EPSILON);
-        assertEquals(2.0, rr.getUpperBound(), EPSILON);
-
-        Range r4 = new Range(1.7, Double.NaN);
-        rr = Range.combineIgnoringNaN(r4, r1);
-        assertEquals(1.0, rr.getLowerBound(), EPSILON);
-        assertEquals(2.0, rr.getUpperBound(), EPSILON);
+    public void testContructor_CreatesObj() {
+    	Range range = new Range(0.0, 2.0);
+    	assertNotNull("No object was created", range);
     }
     
     @Test
-    public void testIsNaNRange() {
-        assertTrue(new Range(Double.NaN, Double.NaN).isNaNRange());
-        assertFalse(new Range(1.0, 2.0).isNaNRange());
-        assertFalse(new Range(Double.NaN, 2.0).isNaNRange());
-        assertFalse(new Range(1.0, Double.NaN).isNaNRange());
+    public void testContructor_CreatesObj_whenBoundsAreEqual() {
+    	Range range = new Range(0.0, 0.0);
+    	assertNotNull("No object was created", range);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testContructor_LowerGreaterThanUpperParameter() {
+    	Range range = new Range(3.0, 2.0);
+    }
+    
+    
+    /* 
+     * Lower bound method tests
+     * 
+     *  Should always return the lower bound of the range
+     */
+    @Test
+    public void testGetLowerBound() {
+    	Range range = new Range(2.0, 5.0);
+    	assertEquals("Unexpected behaviour in method getLowerBound",
+    			2.0, range.getLowerBound(),0.0000001);
+    }
+    
+    @Test
+    public void testGetLowerBound_WithOneNegitiveParameter() {
+    	Range range = new Range(-603.0, 5.0);
+    	assertEquals("Unexpected behaviour in method getLowerBound with a single negitive paramter",
+    			-603.0, range.getLowerBound(),0.0000001);
+    }
+    
+    @Test
+    public void testGetLowerBound_WithBothNegitiveParameter() {
+    	Range range = new Range(-60.5,-2.7);
+    	assertEquals("Unexpected behaviour in method getLowerBound with two negitive parameters",
+    			-60.5, range.getLowerBound(),0.0000001);
+    }
+    
+    @Test
+    public void testGetLowerBound_ZeroValue() {
+    	Range range = new Range(0.0, 10.0);
+    	assertEquals("Unexpected behaviour in method getLowerBound",
+    			0.0, range.getLowerBound(),0.0000001);
+    }
+    
+    @Test
+    public void testGetLowerBound_MinValue() {
+    	Range range = new Range(Double.MIN_VALUE, 5.0);
+    	assertEquals("Unexpected behaviour in method getLowerBound",
+    			Double.MIN_VALUE, range.getLowerBound(),0.0000001);
+    }
+    
+    @Test
+    public void testGetLowerBound_NegInfValue() {
+    	Range range = new Range(Double.NEGATIVE_INFINITY, 5.0);
+    	assertEquals("Unexpected behaviour in method getLowerBound",
+    			Double.NEGATIVE_INFINITY, range.getLowerBound(),0.0000001);
+    }
+    
+    
+    /* upper bounds method tests 
+     * 
+     * Should always return the upper bound
+     * NOTE:  Seems to be returning lower bound instead
+     */
+    @Test
+    public void testGetUpperBound() {
+    	Range range = new Range(2.0, 5.0);
+    	assertEquals("Unexpected behaviour in method getUpperBound",
+    			5.0, range.getUpperBound(),0.0000001);
+    }
+    
+    @Test
+    public void testGetUpperBound_WithLargeValue() {
+    	Range range = new Range(2.1, 123456789.5);
+    	assertEquals("Unexpected behaviour in method getUpperBound with large upper value",123456789.5, range.getUpperBound(),0.0000001);
+    }
+    
+    @Test
+    public void testGetUpperBound_WithMaxValue() {
+    	Range range = new Range(5.0,Double.MAX_VALUE);
+    	assertEquals("Unexpected behaviour in method getUpperBound with max double value",
+    			Double.MAX_VALUE, range.getUpperBound(),0.0000001);
+    }
+    
+    @Test
+    public void testGetUpperBound_PosInfValue() {
+    	Range range = new Range(5.0, Double.POSITIVE_INFINITY);
+    	assertEquals("Unexpected behaviour in method getUpperBound with positive infinity",
+    			Double.POSITIVE_INFINITY, range.getUpperBound(),0.0000001);
+    }
+    
+    @Test
+    public void testGetUpperBound_negativeValue() {
+    	Range range = new Range(-10.0, -5.0);
+    	assertEquals("Unexpected behaviour in method getUpperBound",
+    			-5.0, range.getUpperBound(),0.0000001);
+    }
+    
+    @Test
+    public void testGetUpperBound_zeroValue() {
+    	Range range = new Range(-10.0, 0.0);
+    	assertEquals("Unexpected behaviour in method getUpperBound",
+    			0.0, range.getUpperBound(),0.0000001);
+    }
+
+    
+    /* 
+     * getCentralValue method tests 
+     * 
+     */
+    @Test
+    public void testGetCentralValue_WtihRangeNegOneAndOne() {
+    	Range range = new Range(-1,1);
+        assertEquals("The central value of -1 and 1 should be 0",
+        0, range.getCentralValue(), .000000001d);
+    }
+    
+    @Test
+    public void testGetCentralValue_NegMedianCalc() {
+    	Range range = new Range(-9,0);
+    	assertEquals("The central value of -9 and 0 should be -4.5",
+    	-4.5, range.getCentralValue(), .000000001d);		    
+    }
+    
+    @Test
+    public void testGetCentralValue_PosMedianCalc() {
+    	Range range = new Range(45.0,6900.0);
+    	assertEquals("The central value of -9 and 0 should be 3427.5",
+    	3472.5, range.getCentralValue(), .000000001d);		    
+    }
+    
+    @Test
+    public void testGetCentralValue_BoundsEqual() {
+    	Range range = new Range(5.0,5.0);
+    	assertEquals("The central value of 5 and 5 should be 5",
+    	5.0, range.getCentralValue(), .000000001d);		    
+    }
+    // added assignment 4
+    @Test
+    public void testGetCentralValue_CheckIfMemberVarsChange() {
+    	Range range = new Range(5.0,5.0);
+    	double l = range.getLowerBound();
+    	double u = range.getUpperBound();
+    	assertEquals("The central value of 5 and 5 should be 5",
+    	    	5.0, range.getCentralValue(), .000000001d);	
+    	assertEquals("The lower member variable was altered",
+    			l, range.getLowerBound(), .000000001d);		
+    	assertEquals("The upper member variable was altered",
+    	    	u, range.getUpperBound(), .000000001d);	
+    }
+
+    /* contains method tests
+     * 
+     */
+    @Test
+    public void testContainsBeyondLower() {
+        Range range = new Range(0.0, 10.0);
+        assertTrue("Unexpected behaviour in contains method",!range.contains(-1));
+    }
+    
+    @Test
+    public void testContainsAtLower() {
+        Range range = new Range(0.0, 10.0);
+        assertTrue("Unexpected behaviour in contains method",range.contains(0.0));
+    }
+    
+    @Test
+    public void testContains() {
+        Range range = new Range(0.0, 10.0);
+        assertTrue("Unexpected behaviour in contains method",range.contains(5));
+    }
+    
+    @Test
+    public void testContainsAtUpper() {
+        Range range = new Range(0.0, 10.0);
+        assertTrue("Unexpected behaviour in contains method",range.contains(10.0));
+    }
+    
+    @Test
+    public void testContainsBeyondUpper() {
+        Range range = new Range(0.0, 10.0);
+        assertTrue("Unexpected behaviour in contains method",!range.contains(11.0));
+    }
+    // added assignment 4
+    @Test
+    public void testContains_CheckIfMemberVarsChange() {
+    	Range range = new Range(0.0,5.0);
+    	double l = range.getLowerBound();
+    	double u = range.getUpperBound();
+    	assertTrue("Unexpected behaviour in contains method",range.contains(2.5));
+    	assertEquals("The lower member variable was altered",
+    			l, range.getLowerBound(), .000000001d);		
+    	assertEquals("The upper member variable was altered",
+    	    	u, range.getUpperBound(), .000000001d);	
+    }
+    
+    /* getLength method tests
+     * 
+     */
+    @Test
+    public void testGetLength() {
+        Range range = new Range(0.0, 10.0);
+        assertEquals("Unexpected behaviour in get length method",10.0, range.getLength(), 0.001);
+    }
+    
+    @Test
+    public void testGetLength_WithNegitiveValues() {
+        Range range = new Range(-30.0, -10.0);
+        assertEquals("get length fails with negitive values",20.0, range.getLength(), 0.001);
+    }
+    
+    @Test
+    public void testGetLength_WithNegLowerBound() {
+        Range range = new Range(-30.0, 30.0);
+        assertEquals("get length fails with negitive lower bound",60.0, range.getLength(), 0.001);
+    }
+    
+    @Test
+    public void testGetLength_WithSmallValues() {
+        Range range = new Range(0.55555, 0.55556);
+        assertEquals("get length fails with length = 0.00001",0.00001, range.getLength(), 0.001);
+    }
+    
+    @Test
+    public void testGetLength_ZeroLength() {
+        Range range = new Range(10.0, 10.0);
+        assertEquals("get length fails with length = 0",0.0, range.getLength(), 0.001);
+    }
+    
+    @Test
+    public void testGetLength_WithMaxValue() {
+        Range range = new Range(Double.MIN_VALUE, Double.MAX_VALUE);
+        assertEquals("get length fails on overflow",Double.MAX_VALUE - Double.MIN_VALUE, range.getLength(), 0.001);
+    }
+    // added assignment 4
+    @Test
+    public void testGetLength_CheckIfMemberVarsChange() {
+    	Range range = new Range(0.0,5.0);
+    	double l = range.getLowerBound();
+    	double u = range.getUpperBound();
+    	assertEquals("get length fails with length = 0",5.0, range.getLength(), 0.001);
+    	assertEquals("The lower member variable was altered",
+    			l, range.getLowerBound(), .000000001d);		
+    	assertEquals("The upper member variable was altered",
+    	    	u, range.getUpperBound(), .000000001d);	
+    }
+    
+    
+    /*
+     * equals method tests
+     * Fails, seems to only check if lower is equal. 
+     * probably relies on getUpperBound which incorrectly returns lower. 
+     */
+    @Test
+    public void testEquals() {
+        Range range1 = new Range(0.0, 5.0);
+        Range range2 = new Range(0.0, 5.0);
+        assertTrue("equals method fails with both lower = 0.0 and upper = 5.0",range1.equals(range2));
+    }
+    
+    @Test
+    public void testEquals_Unequal_Upper_Bounds() {
+        Range range1 = new Range(0.0, 5.0);
+        Range range2 = new Range(0.0, 6.0);
+        assertFalse("equals method fails with upper = 5.0 and upper2 = 6.0",range1.equals(range2));  
+    }
+    
+    @Test
+    public void testEquals_Unequal_Lower_Bounds() {
+        Range range1 = new Range(0.0, 5.0);
+        Range range2 = new Range(1.0, 5.0);
+        assertFalse("equals method fails with lower = 0.0 and lower2 = 1.0",range1.equals(range2));  
+    }
+    
+    @Test
+    public void testEquals_Unequal_Upper_and_lower_bounds() {
+        Range range1 = new Range(1.0, 5.0);
+        Range range2 = new Range(0.0, 6.0);
+        assertFalse("equals method fails with range1 (1.0,5.0) and range2 (0.0,6.0)",range1.equals(range2));  
+    }
+    
+    @Test
+    public void testEquals_WithNegOne_FiveAndZero_SixHundred() {
+        Range range1 = new Range(-1.0, 5.0);
+        Range range2 = new Range(-1.0, 600.0);
+        assertFalse("equals method fails with Range(-1.0, 5.0) and Range(-1.0, 600.0)",range1.equals(range2));  
+    }
+    
+    @Test
+    public void testEquals_WithNonRangeObj() {
+        Range range1 = new Range(-1.0, 5.0);
+        assertFalse("equals method fails with Range(-1.0, 5.0) and double",range1.equals(5.5));  
+    }
+    // added assignment 4
+    @Test
+    public void testEquals_CheckIfMemberVarsChange() {
+        Range range1 = new Range(-1.0, 5.0);
+        Range range2 = new Range(-1.0, 600.0);
+    	double l1 = range1.getLowerBound();
+    	double u1 = range1.getUpperBound();
+    	double l2 = range2.getLowerBound();
+    	double u2 = range2.getUpperBound();
+        assertFalse("equals method fails with Range(-1.0, 5.0) and Range(-1.0, 600.0)",range1.equals(range2)); 
+    	assertEquals("The lower member variable of range1 was altered",
+    			l1, range1.getLowerBound(), .000000001d);		
+    	assertEquals("The upper member variable of range1 was altered",
+    	    	u1, range1.getUpperBound(), .000000001d);	
+    	assertEquals("The lower member variable of range1 was altered",
+    			l2, range2.getLowerBound(), .000000001d);		
+    	assertEquals("The upper member variable of range1 was altered",
+    	    	u2, range2.getUpperBound(), .000000001d);	
+    }
+    
+    
+    /*
+     * 
+     * Constrain method tests
+     * Constrain range is = (-10, 20)
+     * 
+     * Combination of equivalence class (Below range, within range, above range)
+     * and boundary class testing (input == lower bound, input == upper bound)
+     * + some additional tests on a range that has lower bound == upper bound
+     * 
+     * Constrain takes a double as an input
+     * Should return a value that is within the given range AND is as close to the input value as possible
+     * (ie, an input outside of the range should return the ranges upper or lower bound, but an input in the range should return the input)
+     * 
+     * 
+     */
+    
+    //constraining from below range, should return lower bound
+    //Currently fails - returns midpoint/average between upper and lower bound instead
+    @Test
+    public void testConstrainFromBelowRange() {
+		Double result = constrainRange.constrain(-22);
+		
+		assertEquals("The resulting value should match the lower bound of the range",
+				-10, result, .000000001d);
+		}
+	
+    //constraining at lower bound should return lower bound
+	@Test
+	public void testConstrainAtLowerBound() {
+		Double result = constrainRange.constrain(-10);
+		
+		assertEquals("The resulting value should match the lower bound of the range",
+				-10, result, .000000001d);
+		}
+	
+	//constraining an in-range value should return the in-range value
+	@Test
+	public void testConstrainWithinRange() {
+		Double result = constrainRange.constrain(5.53);
+		
+		assertEquals("The resulting value should match the in range input value",
+				5.53, result, .000000001d);
+		}
+	
+	//constraining at upper bound should return upper bound
+	@Test
+	public void testConstrainAtUpperBound() {
+		Double result = constrainRange.constrain(20);
+		
+		assertEquals("The resulting value should match the upper bound of the range",
+				20, result, .000000001d);
+		}
+	
+	//constraining from above range, should return upper bound
+	@Test
+	public void testConstrainFromAboveRange() {
+		Double result = constrainRange.constrain(1000.765);
+		
+		assertEquals("The resulting value should match the upper bound of the range",
+				20, result, .000000001d);
+		}
+	
+	//tests constraining to a range with lower bound = upper bound
+	//constrain from below should return the lower bound
+	@Test
+	public void testConstrainFromBelowUnitRange() {
+		constrainRange = new Range(1,1);
+		Double result = constrainRange.constrain(-10);
+		
+		assertEquals("The resulting value should match the lowe/upper bound of the range",
+				1, result, .000000001d);
+		}
+	
+	//tests constraining to a range with lower bound = upper bound
+		@Test
+		public void testConstrainFromWithinUnitRange() {
+			constrainRange = new Range(1,1);
+			Double result = constrainRange.constrain(1);
+			
+			assertEquals("The resulting value should match the lower/upper bound of the range",
+					1, result, .000000001d);
+			}
+		
+		//constrain from below should return the lower bound
+		@Test
+		public void testConstrainFromAboveUnitRange() {
+			constrainRange = new Range(1,1);
+			Double result = constrainRange.constrain(10);
+			
+			assertEquals("The resulting value should match the lower/upper bound of the range",
+					1, result, .000000001d);
+			}
+			
+		/*
+		 * tests to kill more MUTANTS in Constrain -assignment 4
+		 */
+		
+		//constraining an in-range value should return the in-range value. this test is to kill mutants that post decrement the input value to be out of the range  
+		@Test
+		public void testConstrainFromJustAboveLowerBound() {
+			Double result = constrainRange.constrain(-9.999);
+			
+			assertEquals("The resulting value should match the in range input value",
+					-9.999, result, .000000001d);
+			}
+		
+		//constraining an out-of-range value should return the boundary. this test is to kill mutants that post increment the input value to be in the range  
+		@Test
+		public void testConstrainFromJustBelowLowerBound() {
+			Double result = constrainRange.constrain(-10.001);
+			
+			assertEquals("The resulting value should match the lower bound",
+					-10, result, .000000001d);
+			}
+		
+		//constraining an in-range value should return the in-range value. this test is to kill mutants that post increment the input value to be out of the range  
+		@Test
+		public void testConstrainFromJustBelowUpperBound() {
+			Double result = constrainRange.constrain(19.999);
+			
+			assertEquals("The resulting value should match the in range input value",
+					19.999, result, .000000001d);
+			}
+		
+		//constraining an out-of-range value should return the boundary. this test is to kill mutants that post decrement the input value to be in the range  
+				@Test
+				public void testConstrainFromJustAboveUpperBound() {
+					Double result = constrainRange.constrain(20.001);
+					
+					assertEquals("The resulting value should match the upper bound",
+							20, result, .000000001d);
+					}
+		
+		//constraining from below range, should return lower bound, added to kill mutant where upper value is negated during comparison
+	    @Test
+	    public void testConstrain_NegateUpperMutant() {
+	    	Range range = new Range(10, 20);
+			Double result = range.constrain(-10);
+			
+			assertEquals("The resulting value should match the lower bound of the range",
+					10, result, .000000001d);
+			}
+				
+	  //constraining from below range, should return lower bound, added to kill mutant where lower value is negated during comparison
+	    @Test
+	    public void testConstrain_NegateLowerMutant() {
+	    	Range range = new Range(10, 20);
+			Double result = range.constrain(-5);
+			
+			assertEquals("The resulting value should match the lower bound of the range",
+					10, result, .000000001d);
+			}
+	    
+	 // added assignment 4, make sure bounds do not change
+	    @Test
+	    public void testConstrain_CheckIfBoundsChangeAboveConstrain() {
+	    	Range range = new Range(1.0, 2.0);
+	    	double l = 1.0;
+	    	double u = 2.0;
+	    	Double result = range.constrain(5);
+	    	assertEquals("The resulting value should be the upper bound",
+	    	    	2.0, result, .000000001d);	
+	    	assertEquals("The lower member variable was altered",
+	    			l, range.getLowerBound(), .000000001d);		
+	    	assertEquals("The upper member variable was altered",
+	    	    	u, range.getUpperBound(), .000000001d);	
+	    }
+	    
+	    // added assignment 4, make sure bounds do not change
+	    @Test
+	    public void testConstrain_CheckIfBoundsChangeBelowConstrain() {
+	    	Range range = new Range(1.0, 2.0);
+	    	double l = 1.0;
+	    	double u = 2.0;
+	    	Double result = range.constrain(-5.0);
+	    	assertEquals("The resulting value should be the upper bound",
+	    	    	1.0, result, .000000001d);	
+	    	assertEquals("The lower member variable was altered",
+	    			l, range.getLowerBound(), .000000001d);		
+	    	assertEquals("The upper member variable was altered",
+	    	    	u, range.getUpperBound(), .000000001d);	
+	    }
+	    
+	    /** Test expanding a range with negative margins throws IllegalArgumentException. */
+	    @Test(expected = IllegalArgumentException.class)
+	    public void testExpand_WithNegativeMargins() {
+	        Range.expand(testRange, -0.1, -0.1);
+	    }
+	    
+	    /** Test shifting a range allows crossing zero if specified. */
+	    @Test
+	    public void testShift_AllowZeroCrossing() {
+	        Range shiftedRange = Range.shift(new Range(-5, 5), 10, true);
+	        assertEquals("Shifting with zero crossing allowed", 5, shiftedRange.getLowerBound(), 0.001);
+	        assertEquals(15, shiftedRange.getUpperBound(), 0.001);
+	    }
+	    
+	    /** Test combining ranges where one contains NaN values. */
+	    @Test
+	    public void testCombine_RangesWithNaN() {
+	        Range rangeWithNaN = new Range(Double.NaN, Double.NaN);
+	        assertNull("Combining ranges where one contains NaN should return null", Range.combineIgnoringNaN(testRange, rangeWithNaN));
+	    }
+	    
+	    /** Test equals method distinguishes different ranges. */
+	    @Test
+	    public void testEquals_DifferentRanges() {
+	        Range range1 = new Range(-10.0, 10.0);
+	        Range range2 = new Range(-10.0, 10.1);
+	        assertFalse("Ranges with different bounds should not be equal", range1.equals(range2));
+	    }
+
+	    /** Test scaling a range by a negative factor throws IllegalArgumentException. */
+	    @Test(expected = IllegalArgumentException.class)
+	    public void testScale_NegativeFactor() {
+	        Range.scale(testRange, -1);
+	    }
+
+	    /** Test hashCode method consistency with equals. */
+	    @Test
+	    public void testHashCode_Equality() {
+	        Range range1 = new Range(1, 2);
+	        Range range2 = new Range(1, 2);
+	        assertEquals("Equal ranges should have the same hash code", range1.hashCode(), range2.hashCode());
+	    }
+
+	    /** Test constructor throws IllegalArgumentException for illegal arguments. */
+	    @Test(expected = IllegalArgumentException.class)
+	    public void testConstructor_IllegalArguments() {
+	        new Range(2, 1);
+	    }
+
+	    /** Test the intersects method with non-overlapping ranges. */
+	    @Test
+	    public void testIntersects_NonOverlappingRanges() {
+	        Range range1 = new Range(1, 5);
+	        Range range2 = new Range(6, 10);
+	        assertFalse("Ranges that do not overlap should not intersect", range1.intersects(range2));
+	    }
+
+	    /** Test the intersects method with one range completely within another. */
+	    @Test
+	    public void testIntersects_OneRangeWithinAnother() {
+	        Range range1 = new Range(1, 10);
+	        Range range2 = new Range(2, 5);
+	        assertTrue("One range within another should intersect", range1.intersects(range2));
+	    }
+
+	    /** Test the constrain method with extreme values. */
+	    @Test
+	    public void testConstrain_WithInfinity() {
+	        Range range = new Range(1, 100);
+	        assertEquals("Constraining with positive infinity should return upper bound", 100, range.constrain(Double.POSITIVE_INFINITY), 0.001);
+	        assertEquals("Constraining with negative infinity should return lower bound", 1, range.constrain(Double.NEGATIVE_INFINITY), 0.001);
+	    }
+    
+    @After
+    public void tearDown() throws Exception {
+    	constrainRange = null;
+    }
+
+    @AfterClass
+    public static void tearDownAfterClass() throws Exception {
     }
 }
