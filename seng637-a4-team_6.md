@@ -231,6 +231,10 @@ Should add ths check to every read only method and might get us up 10% on its ow
 
 # Why do we need mutation testing? Advantages and disadvantages of mutation testing
 
+Software mutation testing is a technique used to evaluate the effectiveness of a software testing suite by intentionally introducing small changes, or "mutations," into the codebase and then checking if the test suite identifies and fails due to these changes. This approach offers several advantages. Firstly, it provides a concrete measure of the quality of the test suite, identifying specific areas where test coverage is lacking. This detailed feedback can guide developers to improve the test suite by adding tests where necessary, leading to more robust software. Secondly, mutation testing can help in understanding how changes to the code might impact the software's functionality, encouraging more thoughtful and resilient coding practices.
+
+However, there are notable disadvantages to mutation testing. It is computationally expensive and time-consuming, as it requires running the entire test suite for each generated mutant, which can significantly slow down the development process, especially for large codebases. This may not be practical in a continuous integration environment where rapid feedback is essential. Additionally, mutation testing can generate a large number of mutants, some of which may be equivalent to the original code in their behavior, leading to false positives that waste developers' time and resources. Balancing the insights gained from mutation testing against its resource-intensive nature is a key challenge for teams considering its adoption.
+
 # Explain your SELENUIM test case design process
 
 # Explain the use of assertions and checkpoints
