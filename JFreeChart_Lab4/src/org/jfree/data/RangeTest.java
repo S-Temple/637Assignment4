@@ -3,6 +3,7 @@ package org.jfree.data;
 import static org.junit.Assert.*; import org.jfree.data.Range; import org.junit.*;
 
 public class RangeTest {
+	private Range testRange;
     private Range constrainRange;
     @BeforeClass public static void setUpBeforeClass() throws Exception {
     }
@@ -519,6 +520,79 @@ public class RangeTest {
 	    	    	u, range.getUpperBound(), .000000001d);	
 	    }
 
+    
+	    /** Test expanding a range with negative margins throws IllegalArgumentException. */
+	    @Test(expected = IllegalArgumentException.class)
+	    public void testExpand_WithNegativeMargins() {
+	        Range.expand(testRange, -0.1, -0.1);
+	    }
+	    
+	    /** Test shifting a range allows crossing zero if specified. */
+	    @Test
+	    public void testShift_AllowZeroCrossing() {
+	        Range shiftedRange = Range.shift(new Range(-5, 5), 10, true);
+	        assertEquals("Shifting with zero crossing allowed", 5, shiftedRange.getLowerBound(), 0.001);
+	        assertEquals(15, shiftedRange.getUpperBound(), 0.001);
+	    }
+	    
+	    /** Test combining ranges where one contains NaN values. */
+	    @Test
+	    public void testCombine_RangesWithNaN() {
+	        Range rangeWithNaN = new Range(Double.NaN, Double.NaN);
+	        assertNull("Combining ranges where one contains NaN should return null", Range.combineIgnoringNaN(testRange, rangeWithNaN));
+	    }
+	    
+	    /** Test equals method distinguishes different ranges. */
+	    @Test
+	    public void testEquals_DifferentRanges() {
+	        Range range1 = new Range(-10.0, 10.0);
+	        Range range2 = new Range(-10.0, 10.1);
+	        assertFalse("Ranges with different bounds should not be equal", range1.equals(range2));
+	    }
+
+	    /** Test scaling a range by a negative factor throws IllegalArgumentException. */
+	    @Test(expected = IllegalArgumentException.class)
+	    public void testScale_NegativeFactor() {
+	        Range.scale(testRange, -1);
+	    }
+
+	    /** Test hashCode method consistency with equals. */
+	    @Test
+	    public void testHashCode_Equality() {
+	        Range range1 = new Range(1, 2);
+	        Range range2 = new Range(1, 2);
+	        assertEquals("Equal ranges should have the same hash code", range1.hashCode(), range2.hashCode());
+	    }
+
+	    /** Test constructor throws IllegalArgumentException for illegal arguments. */
+	    @Test(expected = IllegalArgumentException.class)
+	    public void testConstructor_IllegalArguments() {
+	        new Range(2, 1);
+	    }
+
+	    /** Test the intersects method with non-overlapping ranges. */
+	    @Test
+	    public void testIntersects_NonOverlappingRanges() {
+	        Range range1 = new Range(1, 5);
+	        Range range2 = new Range(6, 10);
+	        assertFalse("Ranges that do not overlap should not intersect", range1.intersects(range2));
+	    }
+
+	    /** Test the intersects method with one range completely within another. */
+	    @Test
+	    public void testIntersects_OneRangeWithinAnother() {
+	        Range range1 = new Range(1, 10);
+	        Range range2 = new Range(2, 5);
+	        assertTrue("One range within another should intersect", range1.intersects(range2));
+	    }
+
+	    /** Test the constrain method with extreme values. */
+	    @Test
+	    public void testConstrain_WithInfinity() {
+	        Range range = new Range(1, 100);
+	        assertEquals("Constraining with positive infinity should return upper bound", 100, range.constrain(Double.POSITIVE_INFINITY), 0.001);
+	        assertEquals("Constraining with negative infinity should return lower bound", 1, range.constrain(Double.NEGATIVE_INFINITY), 0.001);
+	    }
     
     @After
     public void tearDown() throws Exception {
