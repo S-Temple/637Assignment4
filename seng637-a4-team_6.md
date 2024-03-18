@@ -203,15 +203,21 @@ A benefit of this strategy is that test coverage and quality will be improved as
 **Equivalent Mutants in Range**
 
 Mutation 91-5 (Survived): Negated double local variable number 1.
+
 Mutation 91-6 (Survived): Incremented (a++) double local variable number 1.
+
 Mutation 91-7 (Survived): Decremented (a--) double local variable number 1.
+
 These mutations involve arithmetic operations on double variables and all survived, indicating that the test suite might not be effectively checking the results of such operations due to a lack of assert statements specifically targeting the effects of these arithmetic manipulations or the presence of values that do not significantly affect the outcome in a way that the tests can detect.
 
 **Equivalent Mutants in DataUtilities**
 
 Mutation 155-3 (Survived): removed conditional - replaced comparison check with true.
+
 Mutation 155-4 (Survived): greater or equal to equal.
+
 Mutation 155-9 (Survived): greater or equal to greater than.
+
 These mutations are equivalent because they all involve alterations to conditional logic that affect how decisions are made in the code, and they all survived. They demonstrate that the tests do not adequately cover scenarios where these conditional checks are manipulated, potentially indicating areas where the test coverage could be improved.
 
 # A discussion of what could have been done to improve the mutation score of the test suites
