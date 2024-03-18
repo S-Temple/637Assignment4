@@ -229,6 +229,9 @@ Add check for member var manipulation in methods that should be read only. (done
 
 Should add ths check to every read only method and might get us up 10% on its own
 
+![](./media/rangefinal.PNG)
+Results after adding several tests.
+
 # Why do we need mutation testing? Advantages and disadvantages of mutation testing
 
 Software mutation testing is a technique used to evaluate the effectiveness of a software testing suite by intentionally introducing small changes, or "mutations," into the codebase and then checking if the test suite identifies and fails due to these changes. This approach offers several advantages. Firstly, it provides a concrete measure of the quality of the test suite, identifying specific areas where test coverage is lacking. This detailed feedback can guide developers to improve the test suite by adding tests where necessary, leading to more robust software. Secondly, mutation testing can help in understanding how changes to the code might impact the software's functionality, encouraging more thoughtful and resilient coding practices.
