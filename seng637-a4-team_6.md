@@ -77,7 +77,42 @@ the test is as follows range(-10, 20) and constrained value is -22.
 Since the input value is still lower than the negated upper value (-20), the test was unaffected and the mutant survived    
     
 Adding tests with similar equivalence classes but differing values would kill more mutants like this. Increasing the diversity of the tests at the cost taking more time to implement and run them    
-    
+
+**getLength Mutants:**
+   
+*4. getLength: Replaced double subtraction with addition → KILLED*
+
+This mutant is killed because the test cases for getLength expect specific values based on the subtracted values. By replacing subtraction with addition the results produced are significantly incorrect and easily detected by the test cases.
+
+**Relevant code**   
+```
+    public double getLength() {
+        return this.upper - this.lower; //Replacing '-' with '+' here produces significantly incorrect results which are detected by test cases.
+    }
+```  
+
+*5. getLength: Replaced double subtraction with multiplication → KILLED*
+
+This mutant is killed because the test cases for getLength expect specific values based on the subtracted values. Similarly to the previous mutant, by replacing subtraction with multiplication the results produced are quite different than the correct values, and easily detected by the test cases. 
+
+**Relevant code**   
+```
+    public double getLength() {
+        return this.upper - this.lower; //Replacing '-' with '*' here produces significantly incorrect results which are detected by test cases.
+    }
+```  
+
+*6. getLength: Incremented (a++) double field lower → SURVIVED*
+
+This mutant survived, likely because the test cases are rounding or don't assert values with high precision. There also aren't any direct tests that assert the change in length due to a single increment of the lower bound, adding such a test case would kill this mutant.
+
+**Relevant code**   
+```
+    public double getLength() {
+        return this.upper - this.lower; //Incrementing the lower bound here (lower++) can affect the result, depending on the sensitivity of tests to the incremented amount.
+    }
+```  
+
 **getCentralValue mutants:**
 
 ![](media/RangegetCentralValue.png)
