@@ -222,6 +222,9 @@ These mutations are equivalent because they all involve alterations to condition
 > Results after these additions.
 ![](./media/rangefinal.PNG)
 
+> Data Utilities updated results.
+![](./media/datautilitiestestfinal.PNG)
+
 
 # Why do we need mutation testing? Advantages and disadvantages of mutation testing
 
