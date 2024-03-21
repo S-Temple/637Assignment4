@@ -213,14 +213,23 @@ These mutations are equivalent because they all involve alterations to condition
 
 # A discussion of what could have been done to improve the mutation score of the test suites
 
-A discussion of how you improved the mutation score of the test suites. Your design strategy.
+To improve the mutation test score of the test suites, we focused on enhancing the test coverage to include scenarios that may not have been thoroughly tested, especially those that could reveal untested behavior in edge cases or error conditions. By carefully examining the classes and their methods, we identified areas where additional tests could be beneficial.
 
-> Before adding more tests
-![](./media/RangeResultsAftercheckReadOnly.png)
+**Range**
 
-> Tests for methods changing member variables in read only methods were added.
+For the expand method, the tests now include scenarios where the range is expanded with zero margins to check if it remains the same, with negative margins to explore unusual behaviors, and cases where expanding causes the lower bound to surpass the upper bound or vice versa, to understand its handling of such conditions. The shift method's tests are expanded to cover shifts by zero, ensuring no change; negative shifts, to confirm the range moves as expected; and the effect of the allowZeroCrossing parameter when the shift crosses zero, to ensure it behaves correctly under both settings.
 
-> Constrain tests..
+Coverage is also improved for assessing the hashCode and equals methods by comparing ranges with minor differences to see if equals discerns them as different and checking that hashCode is consistent across different and identical ranges. For the scale method, tests are added to observe behavior when scaling by factors of 1, greater than 1, less than 1, and 0, to assess appropriate scaling actions.
+
+Additional testing includes ensuring the serialization and deserialization of a Range object maintains its integrity, indicating a focus not just on method functionalities but also on object state preservation across processes. Finally, thorough testing of constructors now ensures ranges are correctly initialized whether they have equal lower and upper bounds or involve values like Double.POSITIVE_INFINITY and Double.NEGATIVE_INFINITY, providing a comprehensive check on range instantiation under diverse conditions.
+
+**Data Utilities** 
+
+For the equal method, tests are designed to cover various edge cases, including comparing arrays of differing lengths, arrays of the same length but with different values, and comparing a null array with a non-null array to verify correct equality assessments. In testing the clone method, the suite includes tests for cloning an array that includes null values, as well as cloning an empty array, to ensure that the cloning process accurately replicates the original array's structure and content, including handling of nulls and maintenance of the original array's size and shape.
+
+The tests for the calculateColumnTotal and calculateRowTotal methods are enhanced to cover situations with invalid column or row indices, and scenarios where the Values2D implementation may return null for some getValue calls, simulating missing data conditions. Additionally, the suite tests overloaded versions of these methods that operate on a subset of rows or columns specified by an array of indices, including edge cases where the indices array might be empty or contain invalid indices.
+
+For the createNumberArray and createNumberArray2D methods, tests are added to check the handling of boundary values such as Double.MAX_VALUE and Double.MIN_VALUE, as well as arrays consisting entirely of NaN or Infinity values, ensuring the methods function correctly across the entire range of double values and handle special floating-point values as expected. Lastly, testing the getCumulativePercentages method involves scenarios where a KeyedValues instance returns NaN or Infinity for some values, where the total sum of all values is zero, and where the instance contains negative values. These tests are critical for understanding how the method calculates percentages in various unusual data scenarios, including the potentially undefined behavior with negative values.
 
 > Results after these additions.
 ![](./media/rangefinal.PNG)
