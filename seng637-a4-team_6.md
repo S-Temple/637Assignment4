@@ -212,6 +212,9 @@ Mutation 155-9 (Survived): greater or equal to greater than.
 These mutations are equivalent because they all involve alterations to conditional logic that affect how decisions are made in the code, and they all survived. They demonstrate that the tests do not adequately cover scenarios where these conditional checks are manipulated, potentially indicating areas where the test coverage could be improved.
 
 # A discussion of what could have been done to improve the mutation score of the test suites
+
+A discussion of how you improved the mutation score of the test suites. Your design strategy.
+
 > Before adding more tests
 ![](./media/RangeResultsAftercheckReadOnly.png)
 
