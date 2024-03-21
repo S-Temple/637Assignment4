@@ -179,7 +179,33 @@ DataUtilities:
 
 # Analysis drawn on the effectiveness of each of the test classes
 
+Overall, it looks like some classes such as DefaultKeyedValues and RangeType have strong tests, while others like ComparableObjectItem and ComparableObjectSeries have relatively weak tests. The goal should be to have both high line coverage and high mutation coverage for the most effective test suite. Lower mutation coverage suggests that the tests may not be challenging the code thoroughly, possibly missing out on edge cases and potential bugs.
 
+RangeSample (Range.java): It has good line coverage (84%) and mutation coverage (73%), with high test strength (86%). This suggests that the tests for RangeSample are quite effective.
+
+DataUtilitiesSample (DataUtilities.java): The line coverage is at 80% with slightly lower mutation coverage (68%) but a high test strength (86%). The test suite seems effective but could perhaps be improved slightly in terms of mutation coverage.
+
+ComparableObjectItem (ComparableObjectItem.java): This has lower line coverage (61%) and mutation coverage (40%), indicating that there's a significant amount of code that is not being tested effectively.
+
+ComparableObjectSeries (ComparableObjectSeries.java): Similar to ComparableObjectItem, this has low line coverage (62%) and low mutation coverage (30%), suggesting that this test class is not very effective and there are likely many untested paths.
+
+DefaultKeyedValues2D (DefaultKeyedValues2D.java): Line coverage is fairly high at 79%, and mutation coverage is reasonable at 59%, but this suggests there is room for improvement.
+
+DefaultKeyedValues (DefaultKeyedValues.java): This has excellent line coverage (90%) and high mutation coverage (79%), with a high test strength of 88%. This is indicative of a strong test suite.
+
+DefaultKeyedValue (DefaultKeyedValue.java): With line coverage at 76% and mutation coverage at 39%, it shows a significant number of mutants are not detected, suggesting potential weaknesses in the test suite.
+
+DomainOrder (DomainOrder.java): With high line coverage (80%) and decent mutation coverage (60%), this test class seems fairly effective.
+
+KeyedObjects2D (KeyedObjects2D.java): The line coverage is excellent (84%), but mutation coverage is lower (55%), which might indicate that while many lines are tested, the tests might not be effectively catching all potential issues.
+
+KeyedObjects (KeyedObjects.java): With 72% line coverage and 52% mutation coverage, this test class could be improved to be more effective.
+
+KeyedObject (KeyedObject.java): The line coverage is only at 78%, and the mutation coverage is low (70%), which might suggest that certain edge cases are not being tested.
+
+KeyToGroupMap (KeyToGroupMap.java): Both line coverage and mutation coverage are at 80% and 66% respectively, indicating a fairly effective test suite.
+
+RangeType (RangeType.java): This has high line coverage and mutation coverage (both 80%), which is indicative of a strong test suite.
 
 # A discussion on the effect of equivalent mutants on mutation score accuracy
 
