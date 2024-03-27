@@ -13,6 +13,7 @@
 
 
 # Introduction
+This assignment is about using and understanding mutation testing. First step was running the provided tests and the tests from previous assignments for mutation coverage and then understanding how the mutations work. After understanding the details of how the mutations work we endeavoured to improve our mutation testing coverage.
 
 # Analysis of 10 Mutants of the Range class 
 
@@ -105,7 +106,7 @@ This mutant survived, likely because the test cases are rounding or don't assert
 ```  
 
 **getCentralValue mutants:**
-
+> Method's code
 ![](media/RangegetCentralValue.png)
 > getCentralValue() is a single statement method.
 ![](media/RangegetCentralValueMutants.png)
@@ -138,10 +139,10 @@ RangeSample:
 DataUtilitiesSample:
 ![](./media/24-datasample.PNG)
 
-ComperableObjectItem:
+ComparableObjectItem:
 ![](./media/13-comperableobjectitem.PNG)
 
-ComperableObjectSeries:
+ComparableObjectSeries:
 ![](./media/14-comperableobjectseries.PNG)
 
 DefaultKeyedValues2D:
@@ -257,18 +258,23 @@ The tests for the calculateColumnTotal and calculateRowTotal methods are enhance
 
 For the createNumberArray and createNumberArray2D methods, tests are added to check the handling of boundary values such as Double.MAX_VALUE and Double.MIN_VALUE, as well as arrays consisting entirely of NaN or Infinity values, ensuring the methods function correctly across the entire range of double values and handle special floating-point values as expected. Lastly, testing the getCumulativePercentages method involves scenarios where a KeyedValues instance returns NaN or Infinity for some values, where the total sum of all values is zero, and where the instance contains negative values. These tests are critical for understanding how the method calculates percentages in various unusual data scenarios, including the potentially undefined behavior with negative values.
 
-> Results after these additions.
+Range:
+> Results before and after these additions.
+![](./media/10-RangeMutations.png)
 ![](./media/rangefinal.PNG)
 
-> Data Utilities updated results.
+DataUtilities:
+> Data Utilities before and after these additions.
+![](./media/11-DataUtilitiesMutations.png)
 ![](./media/datutilitiestestfinal.PNG)
+
 
 
 # Why do we need mutation testing? Advantages and disadvantages of mutation testing
 
 Software mutation testing is a technique used to evaluate the effectiveness of a software testing suite by intentionally introducing small changes, or "mutations," into the codebase and then checking if the test suite identifies and fails due to these changes. This approach offers several advantages. Firstly, it provides a concrete measure of the quality of the test suite, identifying specific areas where test coverage is lacking. This detailed feedback can guide developers to improve the test suite by adding tests where necessary, leading to more robust software. Secondly, mutation testing can help in understanding how changes to the code might impact the software's functionality, encouraging more thoughtful and resilient coding practices.
 
-However, there are notable disadvantages to mutation testing. It is computationally expensive and time-consuming, as it requires running the entire test suite for each generated mutant, which can significantly slow down the development process, especially for large codebases. This may not be practical in a continuous integration environment where rapid feedback is essential. Additionally, mutation testing can generate a large number of mutants, some of which may be equivalent to the original code in their behavior, leading to false positives that waste developers' time and resources. Balancing the insights gained from mutation testing against its resource-intensive nature is a key challenge for teams considering its adoption.
+However, there are notable disadvantages to mutation testing. Some of the mutations don't provide any insight that would help in improving the source code. It is computationally expensive and time-consuming, as it requires running the entire test suite for each generated mutant, which can significantly slow down the development process, especially for large codebases. This may not be practical in a continuous integration environment where rapid feedback is essential. Additionally, mutation testing can generate a large number of mutants, some of which may be equivalent to the original code in their behavior, leading to false positives that waste developers' time and resources. Balancing the insights gained from mutation testing against its resource-intensive nature is a key challenge for teams considering its adoption.
 
 # Explain your SELENUIM test case design process
 
