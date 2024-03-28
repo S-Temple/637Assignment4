@@ -284,7 +284,13 @@ However, there are notable disadvantages to mutation testing. Some of the mutati
 
 # How the team work/effort was divided and managed
 
+The team was primarily divied into two groups, one for mutation testing and one for GUI testing. The groups dived their appropriate sections between them evenly. After the work was complete the groups swapped and checked eachothers work to learn from and improve it.
+
 # Difficulties encountered, challenges overcome, and lessons learned
+
+The Mutation testing revealed some flaws with our test set from the previous assignments, we were missing some tests close to the boundary values of certain methods, this meant that mutants which subtly changed these boundary values were not captured. It was a good lesson in ensuring that test suites are designed to more closely constrain themselves to the boundary values the avoid small errors like this.
+
+Many of the mutation testing tools were difficult or impossible to get running. The provided links seemed to be not supported well, or the tool would have required comprehensive changes to the test suite to properly detect coverage. The tools were ultimately not used and just analyzed based on their documentation.
 
 # Comments/feedback on the assignment itself
 
