@@ -307,15 +307,15 @@ When running the tests, please ensure that each test from 1 to 10 is tested indi
 
 Assertions (verify text, verify element present, verify element not present) and its associated checkpoints are mainly used to verify at specific points that the functionalities (login, sign-on) are working as intended. There were different verification methods and checkpoints utilized for this assignment - for clarity, each logical assertion that is unique will be discussed. 
 
-**User Registration - Verify Text: **
+**User Registration - Verify Text:**
 
 When the user successfully registers, the page goes to a separate page where a text box shows “Your account has been created”. This is the condition that we check to make sure user registration is valid. If the email is in use however, a text box prompting “The email address ericyoon4242@gmail.com is already in use. Please enter a different one.” is checked to see if it exists, verifying successful user registration.
 
-Login - Verify element not present:
+**Login - Verify element not present:**
 
 When the user successfully logins, the “verify element not present” is utilized as once you are signed in, the “login” button on the dashboard disappears. 
 
-Search Bar - Verify element present:
+**Search Bar - Verify element present:**
 
 When you search an item successfully, such as “Dyson”, multiple options pop up in the product page. We then search for if any product box elements exist in the product page, which means that there are items relevant to the search criteria. We can also reverse this for an invalid item, where something like “sadasdgsdg” can be verified with verify element not present for the same product box element. 
 
@@ -325,35 +325,35 @@ With respect to checkpoints, there were multiple verification stop points where 
 
 # how did you test each functionaity with different test data
 
-**User Registration:**
+1. **User Registration:**
 Invalid Email Format: Entered an email address with an incorrect format (e.g., missing "@" symbol).
 Invalid Password Entry: Entered an incorrect password format (e.g., too short, missing special characters).
 Correct Registration: Successfully registered with an email that is in use, and another registration with a new email not in use.
-**Login:**
+2. **Login:**
 Various scenarios included:
 Empty user and password fields.
 Empty email or password fields.
 Incorrect email or password.
 Correct email and password.
-**Search Bar:**
+3. **Search Bar:**
 Generic Search: Searched for a general term like "Dyson."
 Specific Search: Searched for a specific product, such as "NutriBites Freeze-dried Beef Liver Dog and Cat Treats, 2 x 500g."
 Invalid Search: Attempted to search using gibberish characters.
-**Add/Remove Items from Homepage Cart:**
+4. **Add/Remove Items from Homepage Cart:**
 Addition of Different Items: Added various items to the cart, including one, same, and different items.
 Removal of Items: Removed items from the cart individually and all items at once.
-**Logout:**
+5. **Logout:**
 Logged out from both the home page and the account page to ensure functionality across different sections.
-**Forgot Password:**
+6. **Forgot Password:**
 Tested with both invalid and valid email formats.
-**Change # of Products Displayed on the Page:**
+7. **Change # of Products Displayed on the Page:**
 Set different numbers of products to display per page to assess the display functionality.
-**Different Item Selection on Homepage:**
+8. **Different Item Selection on Homepage:**
 Selected various categories like showers, tents, and iPads to verify navigation and product display.
-**Modify Account Settings:**
+9. **Modify Account Settings:**
 Changed company name and attempted to change name and email both invalidly and validly.
 Changed password and email.
-**Create/Delete Wish List:**
+10. **Create/Delete Wish List:**
 Created multiple wishlists and deleted them individually and all at once.
 
 Testing with different test data allows for thorough validation of the application's functionality under various conditions. It helps ensure that the system behaves correctly and remains robust even in scenarios that might not be anticipated initially. By covering a wide range of possible inputs and situations, we can enhance the reliability and quality of the application, ultimately providing a better user experience.
