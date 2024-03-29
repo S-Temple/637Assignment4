@@ -368,14 +368,12 @@ The Mutation testing revealed some flaws with our test set from the previous ass
 
 Many of the mutation testing tools were difficult or impossible to get running. The provided links seemed to be not supported well, or the tool would have required comprehensive changes to the test suite to properly detect coverage. The tools were ultimately not used and just analyzed based on their documentation.
 
-**Selenium**
 For Selenium, the main difficulty was creating up with test case functionalities and its respective verification method. For example, the test case of purchasing is a little hard to verify as we would have to buy products from the website. Other test cases such as login, we had to be creative in the verification such as checking if an element did not exist. As a result, really planning out the entire functionalities (10 to be exact) and its respective verification and different testing data was quite overwhelming at the start. 
 
 Lessons learned was to manage the time better for this assignment. We ran into an interpretation issue of the assignment where initially we made 10 functionalities that were similar and testing out different parts of the same functionality (i.e. login invalidly is one function, login validly is another function) but realized that this was just a single functionality. So, we were rushed to create more functionalities to test, causing us to be stressed for time. 
 
 # Comments/feedback on the assignment itself
 
-**Selenium**
 For Selenium, the feedback we would give is to be a little more clear on what "different test data" means and provide just a few more examples. On the other hand, Selenium and its test development was very fun and easy to develop as the GUI tracks your actions and inputs. 
 
 # 4 Evaluation Criteria
