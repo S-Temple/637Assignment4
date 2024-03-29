@@ -374,6 +374,8 @@ Lessons learned was to manage the time better for this assignment. We ran into a
 
 # Comments/feedback on the assignment itself
 
+The mutation testing portion of the assignment was interesting and very effective at teaching us the basics of mutation testing. We enjoyed the interactive process of making changes to the test code and seeing how it affected mutations generated and the mutation test scores. The instructions were not entirely clear on the setup process required to get the test suite working for mutation testing, one thing that would have helped would be including the JARs from assignment 2 for mocking with the rest of the assignment 4 JARs. 
+
 For Selenium, the feedback we would give is to be a little more clear on what "different test data" means and provide just a few more examples. On the other hand, Selenium and its test development was very fun and easy to develop as the GUI tracks your actions and inputs. 
 
 # 4 Evaluation Criteria
