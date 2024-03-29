@@ -278,9 +278,85 @@ However, there are notable disadvantages to mutation testing. Some of the mutati
 
 # Explain your SELENUIM test case design process
 
+We decided to proceed with Shop Smart Canada as our GUI website to test using Selenium. After discussion, we decided that the functionalities that are to be used most often by the user were the ones to focus on. With this in mind, the test case functionalities that we decided to pursue was as follows, after exploration of the website and its GUI: 
+
+User Registration
+Login 
+Search Bar
+Add/Remove Items from Homepage Cart
+Logout 
+Forgot Password
+Change # of Products Displayed on the page
+Different Item Selection on Home Page
+Modify Account Settings
+Create/Delete Wish List
+
+Once these test case functionalities were decided on, a wireframe testing strategy of all functionalities, its different test data and its associated assertions/checkpoints were developed, and is found in the “Test Cases” file in the git repo. To explain, one of the functionality is shown below: 
+
+Test Case 10. Create/Delete wishlist
+1. Sign in and go to account settings - wish list.
+2. Create 3 wishlists and verify each step of creation.
+3. Delete 1 wishlist and verify deletion of the single wishlist.
+4. Delete all wishlists and verify deletion of all (two) wishlists.
+
+There is a step-to-step process to follow through the Selenium IDE, and the different test data such as creating 3 wishlists, deleting different methods and the verification of each process is documented. As a result, each functionality is being validated for completion with different parameters, so GUI testing covers more features and different parameters. 
+
+When running the tests, please ensure that each test from 1 to 10 is tested individually. 
+
 # Explain the use of assertions and checkpoints
 
+Assertions (verify text, verify element present, verify element not present) and its associated checkpoints are mainly used to verify at specific points that the functionalities (login, sign-on) are working as intended. There were different verification methods and checkpoints utilized for this assignment - for clarity, each logical assertion that is unique will be discussed. 
+
+**User Registration - Verify Text: **
+
+When the user successfully registers, the page goes to a separate page where a text box shows “Your account has been created”. This is the condition that we check to make sure user registration is valid. If the email is in use however, a text box prompting “The email address ericyoon4242@gmail.com is already in use. Please enter a different one.” is checked to see if it exists, verifying successful user registration.
+
+Login - Verify element not present:
+
+When the user successfully logins, the “verify element not present” is utilized as once you are signed in, the “login” button on the dashboard disappears. 
+
+Search Bar - Verify element present:
+
+When you search an item successfully, such as “Dyson”, multiple options pop up in the product page. We then search for if any product box elements exist in the product page, which means that there are items relevant to the search criteria. We can also reverse this for an invalid item, where something like “sadasdgsdg” can be verified with verify element not present for the same product box element. 
+
+These assertions were used with creative logic, checking for certain items that are created when a button is pressed, or not created as well. Please take a look at the script for our assertion methods in detail. 
+
+With respect to checkpoints, there were multiple verification stop points where it checks for numerous conditions. For example, looking at the functionality Add/Remove items from Homepage Cart there are numerous verification steps that check if the cart inventory increases when add to cart buttons are pressed. We also test out the addition of a different unique product with “verify element present” checking if there are more than 1 instance of previewcartitem, confirming there are two unique items in the bag. We then test the removal of one item, removal of all items and have verification points for each task. This logic and checkpoint usage makes our tests work step-by-step for easier validation and analysis for the user.
+
 # how did you test each functionaity with different test data
+
+**User Registration:**
+Invalid Email Format: Entered an email address with an incorrect format (e.g., missing "@" symbol).
+Invalid Password Entry: Entered an incorrect password format (e.g., too short, missing special characters).
+Correct Registration: Successfully registered with an email that is in use, and another registration with a new email not in use.
+**Login:**
+Various scenarios included:
+Empty user and password fields.
+Empty email or password fields.
+Incorrect email or password.
+Correct email and password.
+**Search Bar:**
+Generic Search: Searched for a general term like "Dyson."
+Specific Search: Searched for a specific product, such as "NutriBites Freeze-dried Beef Liver Dog and Cat Treats, 2 x 500g."
+Invalid Search: Attempted to search using gibberish characters.
+**Add/Remove Items from Homepage Cart:**
+Addition of Different Items: Added various items to the cart, including one, same, and different items.
+Removal of Items: Removed items from the cart individually and all items at once.
+**Logout:**
+Logged out from both the home page and the account page to ensure functionality across different sections.
+**Forgot Password:**
+Tested with both invalid and valid email formats.
+**Change # of Products Displayed on the Page:**
+Set different numbers of products to display per page to assess the display functionality.
+**Different Item Selection on Homepage:**
+Selected various categories like showers, tents, and iPads to verify navigation and product display.
+**Modify Account Settings:**
+Changed company name and attempted to change name and email both invalidly and validly.
+Changed password and email.
+**Create/Delete Wish List:**
+Created multiple wishlists and deleted them individually and all at once.
+
+Testing with different test data allows for thorough validation of the application's functionality under various conditions. It helps ensure that the system behaves correctly and remains robust even in scenarios that might not be anticipated initially. By covering a wide range of possible inputs and situations, we can enhance the reliability and quality of the application, ultimately providing a better user experience.
 
 # How the team work/effort was divided and managed
 
@@ -292,8 +368,15 @@ The Mutation testing revealed some flaws with our test set from the previous ass
 
 Many of the mutation testing tools were difficult or impossible to get running. The provided links seemed to be not supported well, or the tool would have required comprehensive changes to the test suite to properly detect coverage. The tools were ultimately not used and just analyzed based on their documentation.
 
+**Selenium**
+For Selenium, the main difficulty was creating up with test case functionalities and its respective verification method. For example, the test case of purchasing is a little hard to verify as we would have to buy products from the website. Other test cases such as login, we had to be creative in the verification such as checking if an element did not exist. As a result, really planning out the entire functionalities (10 to be exact) and its respective verification and different testing data was quite overwhelming at the start. 
+
+Lessons learned was to manage the time better for this assignment. We ran into an interpretation issue of the assignment where initially we made 10 functionalities that were similar and testing out different parts of the same functionality (i.e. login invalidly is one function, login validly is another function) but realized that this was just a single functionality. So, we were rushed to create more functionalities to test, causing us to be stressed for time. 
+
 # Comments/feedback on the assignment itself
 
+**Selenium**
+For Selenium, the feedback we would give is to be a little more clear on what "different test data" means and provide just a few more examples. On the other hand, Selenium and its test development was very fun and easy to develop as the GUI tracks your actions and inputs. 
 
 # 4 Evaluation Criteria
 
