@@ -280,16 +280,16 @@ However, there are notable disadvantages to mutation testing. Some of the mutati
 
 We decided to proceed with Shop Smart Canada as our GUI website to test using Selenium. After discussion, we decided that the functionalities that are to be used most often by the user were the ones to focus on. With this in mind, the test case functionalities that we decided to pursue was as follows, after exploration of the website and its GUI: 
 
-User Registration
-Login 
-Search Bar
-Add/Remove Items from Homepage Cart
-Logout 
-Forgot Password
-Change # of Products Displayed on the page
-Different Item Selection on Home Page
-Modify Account Settings
-Create/Delete Wish List
+1. User Registration
+2. Login 
+3. Search Bar
+4. Add/Remove Items from Homepage Cart
+5. Logout 
+6. Forgot Password
+7. Change # of Products Displayed on the page
+8. Different Item Selection on Home Page
+9. Modify Account Settings
+10. Create/Delete Wish List
 
 Once these test case functionalities were decided on, a wireframe testing strategy of all functionalities, its different test data and its associated assertions/checkpoints were developed, and is found in the “Test Cases” file in the git repo. To explain, one of the functionality is shown below: 
 
